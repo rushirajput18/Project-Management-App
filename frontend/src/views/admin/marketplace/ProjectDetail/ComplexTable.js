@@ -11,7 +11,8 @@ import {
   Tr,
   useColorModeValue,
 } from "@chakra-ui/react";
-import React, { useMemo } from "react";
+import { Button, useDisclosure } from "@chakra-ui/react";
+import React, { useMemo, useState } from "react";
 import {
   useGlobalFilter,
   usePagination,
@@ -29,7 +30,31 @@ export default function ColumnsTable(props) {
   const { columnsData, tableData } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
-  const data = useMemo(() => tableData, [tableData]);
+  //const data = useMemo(() => tableData, [tableData]);
+
+  const [tasks, setTasks] = useState(tableData);
+  const handleAddTask = () => {
+    setTasks((prevTasks) => {
+      const generateRandomTask = () => {
+        const randomNames = ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"];
+        const randomStatus = ["Approved", "Disable", "Error"];
+        const randomDeadline = ["2023-05-01", "2023-06-15", "2023-07-30", "2023-09-20", "2023-12-31"];
+        const randomProgress = Math.floor(Math.random() * 101);
+  
+        return {
+          name: randomNames[Math.floor(Math.random() * randomNames.length)],
+          status: randomStatus[Math.floor(Math.random() * randomStatus.length)],
+          deadline: randomDeadline[Math.floor(Math.random() * randomDeadline.length)],
+          progress: randomProgress,
+        };
+      };
+  
+      const newTask = generateRandomTask();
+      return [...prevTasks, newTask];
+    });
+  };
+
+  const data = useMemo(() => tasks, [tasks]);
 
   const tableInstance = useTable(
     {
@@ -59,16 +84,15 @@ export default function ColumnsTable(props) {
       w='100%'
       px='0px'
       overflowX={{ sm: "scroll", lg: "hidden" }}>
-      <Flex px='25px' justify='space-between' mb='10px' align='center'>
-        <Text
-          color={textColor}
-          fontSize='22px'
-          fontWeight='700'
-          lineHeight='100%'>
-          Complex Table
-        </Text>
-        <Menu />
-      </Flex>
+      <Flex px="25px" justify="space-between" mb="10px" align="center">
+  <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
+    Complex Table
+  </Text>
+  <Menu />
+  <Button colorScheme="brand" onClick={handleAddTask}>
+    Add Task
+  </Button>
+</Flex>
       <Table {...getTableProps()} variant='simple' color='gray.500' mb='24px'>
         <Thead>
           {headerGroups.map((headerGroup, index) => (
