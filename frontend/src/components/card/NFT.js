@@ -7,7 +7,6 @@ import {
   Flex,
   Icon,
   Image,
-  Link,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
@@ -16,6 +15,7 @@ import Card from "components/card/Card.js";
 // Assets
 import React, { useState } from "react";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
+import { Link } from "react-router-dom";
 
 export default function NFT(props) {
   const { image, name, author, bidders, download, currentbid } = props;
@@ -124,26 +124,19 @@ export default function NFT(props) {
             <Text fontWeight='700' fontSize='sm' color={textColorBid}>
               Current Bid: {currentbid}
             </Text>
-            <Link
-              href={download}
-              mt={{
-                base: "0px",
-                md: "10px",
-                lg: "0px",
-                xl: "10px",
-                "2xl": "0px",
-              }}>
-              <Button
-                variant='darkBrand'
-                color='white'
-                fontSize='sm'
-                fontWeight='500'
-                borderRadius='70px'
-                px='24px'
-                py='5px'>
-                Place Bid
-              </Button>
-            </Link>
+            <Link to="/userReport">
+  <Button
+    variant='darkBrand'
+    color='white'
+    fontSize='sm'
+    fontWeight='500'
+    borderRadius='70px'
+    px='24px'
+    py='5px'
+  >
+    Place Bid
+  </Button>
+</Link>
           </Flex>
         </Flex>
       </Flex>
