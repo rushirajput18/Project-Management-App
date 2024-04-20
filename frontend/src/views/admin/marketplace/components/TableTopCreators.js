@@ -24,10 +24,22 @@ import { AddIcon } from '@chakra-ui/icons';
 
 function TopCreatorTable(props) {
   // const { columnsData, tableData } = props;
+  // const { columnsData, tableData } = props;
 
   // const columns = useMemo(() => columnsData, [columnsData]);
   // const data = useMemo(() => tableData, [tableData]);
+  // const columns = useMemo(() => columnsData, [columnsData]);
+  // const data = useMemo(() => tableData, [tableData]);
 
+  // const tableInstance = useTable(
+  //   {
+  //     columns,
+  //     data,
+  //   },
+  //   useGlobalFilter,
+  //   useSortBy,
+  //   usePagination
+  // );
   // const tableInstance = useTable(
   //   {
   //     columns,
@@ -46,7 +58,7 @@ function TopCreatorTable(props) {
 
   return (
     <>
-      <Flex
+      {/* <Flex
         direction='column'
         w='100%'
         overflowX={{ sm: "scroll", lg: "hidden" }}>
@@ -62,8 +74,8 @@ function TopCreatorTable(props) {
           <Text color={textColor} fontSize='xl' fontWeight='600'>
             New Project
           </Text>
-          <Button variant='action' leftIcon={<AddIcon />}></Button>
-        </Flex>
+          <Button variant='action' leftIcon={<AddIcon />} ></Button>
+        </Flex> */}
         {/* <Table {...getTableProps()} variant='simple' color='gray.500'>
           <Thead>
             {headerGroups.map((headerGroup, index) => (
@@ -147,7 +159,7 @@ function TopCreatorTable(props) {
             })}
           </Tbody>
         </Table> */}
-      </Flex>
+      {/* </Flex> */}
     </>
   );
 }
