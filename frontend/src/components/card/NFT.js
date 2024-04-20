@@ -10,6 +10,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import {Link} from 'react-router-dom';
 // Custom components
 import Card from "components/card/Card.js";
 // Assets
@@ -124,19 +125,18 @@ export default function NFT(props) {
             <Text fontWeight='700' fontSize='sm' color={textColorBid}>
               Current Bid: {currentbid}
             </Text>
-            <Link to="/userReport">
-  <Button
-    variant='darkBrand'
-    color='white'
-    fontSize='sm'
-    fontWeight='500'
-    borderRadius='70px'
-    px='24px'
-    py='5px'
-  >
-    Place Bid
-  </Button>
-</Link>
+            <Link to="/projectdetails">
+              <Button
+                variant='darkBrand'
+                color='white'
+                fontSize='sm'
+                fontWeight='500'
+                borderRadius='70px'
+                px='24px'
+                py='5px'>
+                Place Bid
+              </Button>
+            </Link>
           </Flex>
         </Flex>
       </Flex>

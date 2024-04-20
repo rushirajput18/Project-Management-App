@@ -14,6 +14,7 @@ import {
 
 // Custom components
 import Banner from "views/admin/marketplace/components/Banner";
+// import ProjectDetails from "views/admin/marketplace/components/ProjectDetails";
 import NewProject from "views/admin/marketplace/components/TableTopCreators";
 import HistoryItem from "views/admin/marketplace/components/HistoryItem";
 import NFT from "components/card/NFT";
@@ -43,7 +44,7 @@ export default function Marketplace() {
       bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
       image: Nft4,
       currentbid: "0.91 ETH",
-      download: "#",
+      // download:"/projectdetails",
     },
     {
       name: "Swipe Circles",
@@ -51,7 +52,7 @@ export default function Marketplace() {
       bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
       image: Nft4,
       currentbid: "0.91 ETH",
-      download: "#",
+      // download:"/projectdetails",
     },
     {
       name: "Swipe Circles",
@@ -59,7 +60,7 @@ export default function Marketplace() {
       bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
       image: Nft4,
       currentbid: "0.91 ETH",
-      download: "#",
+      // download:"/projectdetails",
     },
     {
       name: "Swipe Circles",
@@ -67,7 +68,7 @@ export default function Marketplace() {
       bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
       image: Nft4,
       currentbid: "0.91 ETH",
-      download: "#",
+      // download:"/projectdetails",
     },
     // ... (Other initial NFT cards)
   ]);
