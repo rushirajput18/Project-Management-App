@@ -10,7 +10,6 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-import {Link} from 'react-router-dom';
 // Custom components
 import Card from "components/card/Card.js";
 // Assets
