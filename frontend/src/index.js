@@ -8,6 +8,7 @@ import RtlLayout from 'layouts/rtl';
 import { ChakraProvider } from '@chakra-ui/react';
 import theme from 'theme/theme';
 import { ThemeEditorProvider } from '@hypertheme-editor/chakra-ui';
+import ProjectDetails from 'views/admin/marketplace/components/ProjectDetails';
 
 ReactDOM.render(
 	<ChakraProvider theme={theme}>
@@ -15,6 +16,7 @@ ReactDOM.render(
 			<ThemeEditorProvider>
 				<HashRouter>
 					<Switch>
+						<Route path={`/projectdetails`} component={ProjectDetails} />
 						<Route path={`/auth`} component={AuthLayout} />
 						<Route path={`/admin`} component={AdminLayout} />
 						<Route path={`/rtl`} component={RtlLayout} />
