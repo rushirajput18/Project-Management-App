@@ -15,7 +15,7 @@ export default function MiniCalendar(props) {
     <Card
       align='center'
       direction='column'
-      w='100%'
+      w='200px'
       maxW='max-content'
       p='20px 15px'
       h='max-content'
