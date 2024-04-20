@@ -4,8 +4,8 @@ import {
   Box,
   Flex,
   FormLabel,
-  Icon,
-  Select,
+  // Icon,
+  // Select,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -19,24 +19,23 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 // Assets
-import Usa from "assets/img/dashboards/usa.png";
+// import Usa from "assets/img/dashboards/usa.png";
 // Custom components
-import MiniStatistics from "components/card/MiniStatistics";
-import IconBox from "components/icons/IconBox";
+// import MiniStatistics from "components/card/MiniStatistics";
+// import IconBox from "components/icons/IconBox";
 import React from "react";
 import Card from "components/card/Card.js";
-import {
-  MdAddTask,
-  MdAttachMoney,
-  MdBarChart,
-  MdFileCopy,
-} from "react-icons/md";
+// import {
+//   MdAddTask,
+//   MdAttachMoney,
+//   MdBarChart,
+//   MdFileCopy,
+// } from "react-icons/md";
 import { AddIcon } from "@chakra-ui/icons";
-import CheckTable from "views/admin/default/components/CheckTable";
-import ComplexTable from "views/admin/default/components/ComplexTable";
-import TableTopCreators from "views/admin/default/components/TableTopCreators";
+import ComplexTable from "./ComplexTable";
+import TableTopCreators from "./TableTopCreators";
 import {
-  columnsDataCheck,
+  // columnsDataCheck,
   columnsDataComplex,
 } from "views/admin/default/variables/columnsData";
 
@@ -49,7 +48,7 @@ import { SidebarContext } from "contexts/SidebarContext";
 import { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
-import PieCard from "views/admin/default/components/PieCard";
+import PieCard from "./PieCard";
 import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
 import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
