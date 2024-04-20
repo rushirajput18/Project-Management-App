@@ -145,7 +145,7 @@ export default function UserReports() {
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px'>
           {/* <DailyTraffic /> */}
           <PieCard />
-          <MiniCalendar minW='573px' mx='300px' selectRange={false} />
+          <MiniCalendar minW='483px' mx='260px' selectRange={false} />
         </SimpleGrid>
       </SimpleGrid>
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='20px' mb='20px'>
