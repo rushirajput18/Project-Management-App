@@ -1,6 +1,6 @@
 // Chakra imports
 import {
-  Avatar,
+  // Avatar,
   Box,
   Flex,
   FormLabel,
@@ -39,7 +39,7 @@ import {
   columnsDataComplex,
 } from "views/admin/default/variables/columnsData";
 
-import { Portal, useDisclosure, Text, Button, Link } from "@chakra-ui/react";
+import { useDisclosure, Text, Button } from "@chakra-ui/react";
 import Footer from "components/footer/FooterAdmin.js";
 // Layout components
 import Navbar from "components/navbar/NavbarAdmin.js";
@@ -49,7 +49,7 @@ import { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
 import PieCard from "./PieCard";
-import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
+// import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
 import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/default/variables/tableColumnsTopCreators";
@@ -61,7 +61,7 @@ export default function ProjectDetails(props) {
   // states and functions
   const textColor = useColorModeValue("navy.700", "white");
   const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
-  const textColorSecondary = useColorModeValue("secondaryGray.600", "white");
+  // const textColorSecondary = useColorModeValue("secondaryGray.600", "white");
   const [deadline, setDeadline] = useState(null);
 
   const [fixed] = useState(false);
@@ -168,8 +168,8 @@ export default function ProjectDetails(props) {
   document.documentElement.dir = "ltr";
   const { onOpen } = useDisclosure();
   document.documentElement.dir = "ltr";
-  const brandColor = useColorModeValue("brand.500", "white");
-  const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
+  // const brandColor = useColorModeValue("brand.500", "white");
+  // const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
 
   return (
     <Box display="flex" flexDirection="row">
