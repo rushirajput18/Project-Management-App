@@ -6,7 +6,7 @@ dotenv.config({ path: './.env' });
 
 //code to connect to mongoose database
 const app=express();
-console.log(process.env.DATABASE);
+// console.log(process.env.DATABASE);
 mongoose.connect(process.env.DATABASE, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
