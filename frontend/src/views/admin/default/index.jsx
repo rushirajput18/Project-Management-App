@@ -38,6 +38,7 @@ import MiniCalendar from "components/calendar/MiniCalendar";
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
 import React from "react";
+import Card from "components/card/Card.js";
 import {
   MdAddTask,
   MdAttachMoney,
@@ -47,6 +48,7 @@ import {
 import CheckTable from "views/admin/default/components/CheckTable";
 import ComplexTable from "views/admin/default/components/ComplexTable";
 import DailyTraffic from "views/admin/default/components/DailyTraffic";
+import TableTopCreators from "views/admin/default/components/TableTopCreators";
 import PieCard from "views/admin/default/components/PieCard";
 import Tasks from "views/admin/default/components/Tasks";
 import TotalSpent from "views/admin/default/components/TotalSpent";
@@ -57,6 +59,8 @@ import {
 } from "views/admin/default/variables/columnsData";
 import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
+import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
+import { tableColumnsTopCreators } from "views/admin/default/variables/tableColumnsTopCreators";
 
 export default function UserReports() {
   // Chakra Color Mode
@@ -68,7 +72,7 @@ export default function UserReports() {
         columns={{ base: 1, md: 2, lg: 3, "2xl": 6 }}
         gap='20px'
         mb='20px'>
-        <MiniStatistics
+        {/* <MiniStatistics
           startContent={
             <IconBox
               w='56px'
@@ -96,14 +100,23 @@ export default function UserReports() {
           name='Spend this month'
           value='$642.39'
         />
-        <MiniStatistics growth='+23%' name='Sales' value='$574.34' />
+        <MiniStatistics growth='+23%' name='Sales' value='$574.34' /> */}
         <MiniStatistics
           endContent={
             <Flex me='-16px' mt='10px'>
               <FormLabel htmlFor='balance'>
-                <Avatar src={Usa} />
               </FormLabel>
               <Select
+          fontSize='sm'
+          variant='subtle'
+          width='unset'
+          fontWeight='700'>
+          <option value='Overrall'>Overall</option>
+          <option value='project-1'>Project-1</option>
+          <option value='project-2'>Project-2</option>
+          <option value='project-3'>Project-3</option>
+        </Select>
+              {/* <Select
                 id='balance'
                 variant='mini'
                 mt='5px'
@@ -112,10 +125,10 @@ export default function UserReports() {
                 <option value='usd'>USD</option>
                 <option value='eur'>EUR</option>
                 <option value='gba'>GBA</option>
-              </Select>
+              </Select> */}
             </Flex>
           }
-          name='Your balance'
+          name='Total Cost'
           value='$1,000'
         />
         <MiniStatistics
@@ -127,8 +140,8 @@ export default function UserReports() {
               icon={<Icon w='28px' h='28px' as={MdAddTask} color='white' />}
             />
           }
-          name='New Tasks'
-          value='154'
+          name='Total Tasks'
+          value='6'
         />
         <MiniStatistics
           startContent={
@@ -142,19 +155,20 @@ export default function UserReports() {
             />
           }
           name='Total Projects'
-          value='2935'
+          value='3'
         />
       </SimpleGrid>
 
-      <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
+      {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
         <TotalSpent />
         <WeeklyRevenue />
-      </SimpleGrid>
+      </SimpleGrid> */}
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='20px' mb='20px'>
-        <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} />
+        {/* <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} /> */}
         <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px'>
-          <DailyTraffic />
+          {/* <DailyTraffic /> */}
           <PieCard />
+          <MiniCalendar minW='573px' mx='300px' selectRange={false} />
         </SimpleGrid>
       </SimpleGrid>
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='20px' mb='20px'>
@@ -162,9 +176,15 @@ export default function UserReports() {
           columnsData={columnsDataComplex}
           tableData={tableDataComplex}
         />
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px'>
-          <Tasks />
-          <MiniCalendar h='100%' minW='100%' selectRange={false} />
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 1 }} gap='20px'>
+          {/* <Tasks /> */}
+          <Card px='0px' mb='2px'>
+            <TableTopCreators
+              tableData={tableDataTopCreators}
+              columnsData={tableColumnsTopCreators}
+            />
+          </Card>
+          {/* <MiniCalendar h='100%' minW='100%' selectRange={false} /> */}
         </SimpleGrid>
       </SimpleGrid>
     </Box>

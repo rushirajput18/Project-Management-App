@@ -18,7 +18,7 @@ export default function Conversion(props) {
     "unset"
   );
   return (
-    <Card p='20px' align='center' direction='column' w='100%' {...rest}>
+    <Card p='20px' align='center' direction='column' w='580px' {...rest}>
       <Flex
         px={{ base: "0px", "2xl": "10px" }}
         justifyContent='space-between'
@@ -31,12 +31,13 @@ export default function Conversion(props) {
         <Select
           fontSize='sm'
           variant='subtle'
-          defaultValue='monthly'
+          defaultValue='Project-1'
           width='unset'
           fontWeight='700'>
-          <option value='daily'>Daily</option>
-          <option value='monthly'>Monthly</option>
-          <option value='yearly'>Yearly</option>
+          <option value='Overrall'>Overall</option>
+          <option value='project-1'>Project-1</option>
+          <option value='project-2'>Project-2</option>
+          <option value='project-3'>Project-3</option>
         </Select>
       </Flex>
 
@@ -63,7 +64,7 @@ export default function Conversion(props) {
               color='secondaryGray.600'
               fontWeight='700'
               mb='5px'>
-              Your files
+              Project-1
             </Text>
           </Flex>
           <Text fontSize='lg' color={textColor} fontWeight='700'>
@@ -79,11 +80,27 @@ export default function Conversion(props) {
               color='secondaryGray.600'
               fontWeight='700'
               mb='5px'>
-              System
+              Project-2
             </Text>
           </Flex>
           <Text fontSize='lg' color={textColor} fontWeight='700'>
             25%
+          </Text>
+        </Flex>
+        <VSeparator mx={{ base: "60px", xl: "60px", "2xl": "60px" }} />
+        <Flex direction='column' py='5px' me='10px'>
+          <Flex align='center'>
+            <Box h='8px' w='8px' bg='#6AD2FF' borderRadius='50%' me='4px' />
+            <Text
+              fontSize='xs'
+              color='secondaryGray.600'
+              fontWeight='700'
+              mb='5px'>
+              Project-3
+            </Text>
+          </Flex>
+          <Text fontSize='lg' color={textColor} fontWeight='700'>
+            78%
           </Text>
         </Flex>
       </Card>
