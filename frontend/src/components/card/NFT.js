@@ -22,7 +22,10 @@ export default function NFT(props) {
   const [like, setLike] = useState(false);
   const textColor = useColorModeValue("navy.700", "white");
   const textColorBid = useColorModeValue("brand.500", "white");
+  const headingColor = useColorModeValue("brand.500", "white");
+  const textColorDescription = "black"; // Set color to black
   return (
+    <Link to="/projectdetails">
     <Card p='20px'>
       <Flex direction={{ base: "column" }} justify='center'>
         <Box mb={{ base: "20px", "2xl": "20px" }} position='relative'>
@@ -121,24 +124,13 @@ export default function NFT(props) {
               "2xl": "row",
             }}
             mt='25px'>
-            <Text fontWeight='700' fontSize='sm' color={textColorBid}>
-              Current Bid: {currentbid}
+            <Text fontWeight='700' fontSize='sm' color={textColorDescription}>
+            <Text color={headingColor}>Description:</Text> {currentbid}
             </Text>
-            <Link to="/projectdetails">
-              <Button
-                variant='darkBrand'
-                color='white'
-                fontSize='sm'
-                fontWeight='500'
-                borderRadius='70px'
-                px='24px'
-                py='5px'>
-                Place Bid
-              </Button>
-            </Link>
           </Flex>
         </Flex>
       </Flex>
     </Card>
+  </Link>
   );
 }

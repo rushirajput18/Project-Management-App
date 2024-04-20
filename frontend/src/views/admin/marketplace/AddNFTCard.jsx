@@ -22,7 +22,7 @@ const AddNFTCard = ({setNFTCards}) => {
       author: "By Random Author",
       bidders: [Avatar1, Avatar2],
       image: Nft4,
-      currentbid: "0.91 ETH",
+      currentbid: "The motive of this task is to integrate arduino uno with code such that the code executed should be uploaded to arduino and arduino should work.",
       download: "#",
     };
   
