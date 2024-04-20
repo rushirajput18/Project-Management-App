@@ -7,10 +7,10 @@ import {
   Flex,
   Icon,
   Image,
-  Link,
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
+import {Link} from 'react-router-dom';
 // Custom components
 import Card from "components/card/Card.js";
 // Assets
@@ -124,15 +124,7 @@ export default function NFT(props) {
             <Text fontWeight='700' fontSize='sm' color={textColorBid}>
               Current Bid: {currentbid}
             </Text>
-            <Link
-              href={download}
-              mt={{
-                base: "0px",
-                md: "10px",
-                lg: "0px",
-                xl: "10px",
-                "2xl": "0px",
-              }}>
+            <Link to="/projectdetails">
               <Button
                 variant='darkBrand'
                 color='white'
