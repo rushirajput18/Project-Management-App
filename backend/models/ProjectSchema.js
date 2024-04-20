@@ -15,11 +15,11 @@ const ProjectSchema = mongoose.Schema({
         enum: ['Assigned', 'In Process', 'Completed'],
         default: 'Assigned'
       },
-    employee:{
-        type: [Employee],
-        default:[],
-        required: true
-    },
+    // employee:{
+    //     type: [Employee],
+    //     default:[],
+    //     required: true
+    // },
     leader:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee',
