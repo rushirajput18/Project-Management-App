@@ -28,7 +28,7 @@ const routes = [
     component: MainDashboard,
   },
   {
-    name: "NFT Marketplace",
+    name: "Projects",
     layout: "/admin",
     path: "/nft-marketplace",
     icon: (

@@ -36,7 +36,7 @@ import {
 
 // Custom components
 import Banner from "views/admin/marketplace/components/Banner";
-import TableTopCreators from "views/admin/marketplace/components/TableTopCreators";
+import NewProject from "views/admin/marketplace/components/TableTopCreators";
 import HistoryItem from "views/admin/marketplace/components/HistoryItem";
 import NFT from "components/card/NFT";
 import Card from "components/card/Card.js";
@@ -69,10 +69,10 @@ export default function Marketplace() {
         display={{ base: "block", xl: "grid" }}>
         <Flex
           flexDirection='column'
-          gridArea={{ xl: "1 / 1 / 2 / 3", "2xl": "1 / 1 / 2 / 2" }}>
-          <Banner />
+          gridArea={{ xl: "1 / 1 / 2 / 4", "2xl": "1 / 1 / 2 / 4" }}>
+          {/* <Banner /> */}
           <Flex direction='column'>
-            <Flex
+            {/* <Flex
               mt='45px'
               mb='20px'
               justifyContent='space-between'
@@ -111,8 +111,8 @@ export default function Marketplace() {
                   Sports
                 </Link>
               </Flex>
-            </Flex>
-            <SimpleGrid columns={{ base: 1, md: 3 }} gap='20px'>
+            </Flex> */}
+            {/* <SimpleGrid columns={{ base: 1, md: 3 }} gap='20px'>
               <NFT
                 name='Abstract Colors'
                 author='By Esthera Jackson'
@@ -164,15 +164,15 @@ export default function Marketplace() {
                 currentbid='0.91 ETH'
                 download='#'
               />
-            </SimpleGrid>
+            </SimpleGrid> */}
             <Text
-              mt='45px'
+              mt='25px'
               mb='36px'
               color={textColor}
               fontSize='2xl'
               ms='24px'
               fontWeight='700'>
-              Recently Added
+              All Projects
             </Text>
             <SimpleGrid
               columns={{ base: 1, md: 3 }}
@@ -229,19 +229,36 @@ export default function Marketplace() {
                 currentbid='0.91 ETH'
                 download='#'
               />
+              <NFT
+                name='3D Cubes Art'
+                author='By Manny Gates'
+                bidders={[
+                  Avatar1,
+                  Avatar2,
+                  Avatar3,
+                  Avatar4,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                  Avatar1,
+                ]}
+                image={Nft6}
+                currentbid='0.91 ETH'
+                download='#'
+              />
             </SimpleGrid>
           </Flex>
         </Flex>
         <Flex
           flexDirection='column'
           gridArea={{ xl: "1 / 3 / 2 / 4", "2xl": "1 / 2 / 2 / 3" }}>
-          <Card px='0px' mb='20px'>
-            <TableTopCreators
+  <Card px='20px' py='8px' mb='30px' mt='6px'>
+            <NewProject
               tableData={tableDataTopCreators}
               columnsData={tableColumnsTopCreators}
             />
           </Card>
-          <Card p='0px'>
+          {/* <Card p='0px'>
             <Flex
               align={{ sm: "flex-start", lg: "center" }}
               justify='space-between'
@@ -296,7 +313,7 @@ export default function Marketplace() {
               image={Nft6}
               price='0.91 ETH'
             />
-          </Card>
+          </Card> */}
         </Flex>
       </Grid>
       {/* Delete Product */}

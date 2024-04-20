@@ -14,6 +14,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useMemo } from "react";
+import { AddIcon } from '@chakra-ui/icons';
 import {
   useGlobalFilter,
   usePagination,
@@ -54,15 +55,16 @@ function TopCreatorTable(props) {
           justify='space-between'
           w='100%'
           px='22px'
-          pb='20px'
-          mb='10px'
+          py='3px'
+          pb='0px'
+          mb='0px'
           boxShadow='0px 40px 58px -20px rgba(112, 144, 176, 0.26)'>
           <Text color={textColor} fontSize='xl' fontWeight='600'>
-            Top Creators
+            New Project
           </Text>
-          <Button variant='action'>See all</Button>
+          <Button variant='action' leftIcon={<AddIcon />}></Button>
         </Flex>
-        <Table {...getTableProps()} variant='simple' color='gray.500'>
+        {/* <Table {...getTableProps()} variant='simple' color='gray.500'>
           <Thead>
             {headerGroups.map((headerGroup, index) => (
               <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
@@ -144,7 +146,7 @@ function TopCreatorTable(props) {
               );
             })}
           </Tbody>
-        </Table>
+        </Table> */}
       </Flex>
     </>
   );
