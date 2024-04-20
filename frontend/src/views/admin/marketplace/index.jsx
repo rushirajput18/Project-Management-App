@@ -20,7 +20,7 @@
 
 */
 
-import React from "react";
+import React, { useState } from "react";
 
 // Chakra imports
 import {
@@ -40,6 +40,7 @@ import NewProject from "views/admin/marketplace/components/TableTopCreators";
 import HistoryItem from "views/admin/marketplace/components/HistoryItem";
 import NFT from "components/card/NFT";
 import Card from "components/card/Card.js";
+import AddNFTCard from "./AddNFTCard"; // Import the new component
 
 // Assets
 import Nft1 from "assets/img/nfts/Nft1.png";
@@ -56,6 +57,42 @@ import tableDataTopCreators from "views/admin/marketplace/variables/tableDataTop
 import { tableColumnsTopCreators } from "views/admin/marketplace/variables/tableColumnsTopCreators";
 
 export default function Marketplace() {
+  const [nftCards, setNFTCards] = useState([
+    // Add your initial NFT cards here
+    {
+      name: "Swipe Circles",
+      author: "By Peter Will",
+      bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
+      image: Nft4,
+      currentbid: "0.91 ETH",
+      download: "#",
+    },
+    {
+      name: "Swipe Circles",
+      author: "By Peter Will",
+      bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
+      image: Nft4,
+      currentbid: "0.91 ETH",
+      download: "#",
+    },
+    {
+      name: "Swipe Circles",
+      author: "By Peter Will",
+      bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
+      image: Nft4,
+      currentbid: "0.91 ETH",
+      download: "#",
+    },
+    {
+      name: "Swipe Circles",
+      author: "By Peter Will",
+      bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
+      image: Nft4,
+      currentbid: "0.91 ETH",
+      download: "#",
+    },
+    // ... (Other initial NFT cards)
+  ]);
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const textColorBrand = useColorModeValue("brand.500", "white");
@@ -174,7 +211,21 @@ export default function Marketplace() {
               fontWeight='700'>
               All Projects
             </Text>
-            <SimpleGrid
+            <SimpleGrid columns={{ base: 1, md: 4 }} gap="20px" mb={{ base: "20px", xl: "0px" }}>
+  {nftCards.map((nftCard, index) => (
+    <NFT
+      key={index}
+      name={nftCard.name}
+      author={nftCard.author}
+      bidders={nftCard.bidders}
+      image={nftCard.image}
+      currentbid={nftCard.currentbid}
+      download={nftCard.download}
+    />
+  ))}
+  <AddNFTCard setNFTCards={setNFTCards} />
+</SimpleGrid>
+            {/* <SimpleGrid
               columns={{ base: 1, md: 3 }}
               gap='20px'
               mb={{ base: "20px", xl: "0px" }}>
@@ -246,7 +297,8 @@ export default function Marketplace() {
                 currentbid='0.91 ETH'
                 download='#'
               />
-            </SimpleGrid>
+              <AddNFTCard />
+            </SimpleGrid> */}
           </Flex>
         </Flex>
         <Flex
