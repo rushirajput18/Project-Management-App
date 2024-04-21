@@ -18,6 +18,7 @@ import Usa from "assets/img/dashboards/usa.png";
 import MiniCalendar from "components/calendar/MiniCalendar";
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
+import React from "react";
 import axios from 'axios';
 
 import Card from "components/card/Card.js";
@@ -143,8 +144,7 @@ export default function UserReports() {
           "http://localhost:3000/project/allProjects",
         );
        
-        // console.log("Response data:", );
-        // setProjectData([response.data.data.projects]);
+
         const projectsArray = response.data.data.projects;
         console.log(
           "Total projects:",
