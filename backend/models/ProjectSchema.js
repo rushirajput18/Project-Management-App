@@ -8,11 +8,11 @@ const ProjectSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        required: true
+        
     },
     status: {
         type: String,
-        enum: ['Assigned', 'In Process', 'Completed'],
+        enum: ['Assigned', 'In Progress', 'Completed'],
         default: 'Assigned'
       },
       employees: [{
@@ -22,7 +22,6 @@ const ProjectSchema = mongoose.Schema({
     leader:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee',
-        required: true
     },  
     StartDate: {
         type: Date,

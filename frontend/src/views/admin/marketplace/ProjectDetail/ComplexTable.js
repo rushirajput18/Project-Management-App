@@ -23,7 +23,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { isValid, parseISO } from "date-fns";
 import {
   useGlobalFilter,
@@ -31,6 +31,7 @@ import {
   useSortBy,
   useTable,
 } from "react-table";
+import Axios from 'axios';
 
 // Custom components
 import Card from "components/card/Card";
@@ -41,7 +42,21 @@ import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
 
 export default function ColumnsTable(props) {
   const { columnsData, tableData } = props;
+  const [fetchedTask, setFetchedTask] = useState(null);
 
+  const fetchTask = async (taskId) => {
+    try {
+      const response = await Axios.get(`http://localhost:5000/task/getTask/${taskId}`);
+      setFetchedTask(response.data.data.task);
+    } catch (error) {
+      console.error('Error fetching task:', error);
+    }
+  };
+
+  useEffect(() => {
+    // Replace 'taskIdHere' with the actual task ID you want to fetch
+    fetchTask('taskIdHere');
+  }, []);
   const columns = useMemo(() => columnsData, [columnsData]);
   const [tasks, setTasks] = useState(tableData);
 
@@ -74,7 +89,7 @@ export default function ColumnsTable(props) {
       } else {
         alert("Invalid date format. Please enter the date in the correct format.");
       }
-    } else {
+    } else {''
       alert("Please enter valid task details.");
     }
   };

@@ -9,6 +9,7 @@ router.delete('/deleteProject',projectController.deleteProject);
 router.get('/getProject',projectController.getProject);
 router.get('/getEmployees',projectController.getEmployees);
 router.get('/getTasks',projectController.getTasks);
+router.get('/PieChart',projectController.getPieChartData);
 
 
 module.exports=router;
