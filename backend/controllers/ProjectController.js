@@ -5,16 +5,29 @@ const catchAsync = require('./../utils/catchAsync');
 
 
 
-exports.createProject =catchAsync(async(req,res)=>{
-        // console.log(req.body);
-        const newProject = await Project.create(req.body);
-        res.status(201).json({
-        status: 'success',
-        data: {
-            project: newProject,
-        },
-        });
+exports.createProject = catchAsync(async(req, res) => {
+  try {
+      const { title, description, employees, endDate, leader } = req.body;
+      
+      // Create the project
+      const newProject = await Project.create({ title, description, employees, endDate, leader });      
+      // Send response
+      res.status(201).json({
+          status: 'success',
+          data: {
+              project: newProject
+          }
+      });
+  } catch (error) {
+    console.log(error)
+      // Handle errors
+      res.status(400).json({
+          status: 'fail',
+          message: error.message
+      });
+  }
 });
+
 
 exports.getAllProjects = catchAsync(async (req, res) => {
       let query = {}; // Initialize an empty query object

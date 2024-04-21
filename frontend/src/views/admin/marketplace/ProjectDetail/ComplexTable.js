@@ -69,7 +69,8 @@ export default function ColumnsTable(props) {
 
   const handleAddTask = () => {
     if (newTaskName && newTaskDeadline) {
-      const parsedDeadline = parseISO(newTaskDeadline);
+      
+const parsedDeadline = parseISO(newTaskDeadline);
   
       if (isValid(parsedDeadline)) {
         const newTask = {
