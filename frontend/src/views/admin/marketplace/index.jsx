@@ -28,8 +28,18 @@ export default function Marketplace() {
     const fetchProjects = async () => {
       try {
         const response = await axios.get("http://localhost:5000/project/allProjects");
-        const projectData = response.data.data.projects;
-        setProjects(projectData);
+        const projects = response.data.data.projects;
+
+        // Map projects data to NFT card format
+        const mappedNFTCards = projects.map((project) => ({
+          name: project.title,
+          description: project.description,
+          author: project.leader ? project.leader.name : "Unknown", // Check if leader exists before accessing its name
+          bidders: project.employees.map((employee) => employee.name), // Assuming employees have a 'name' field
+          //image: NFT1,
+        }));
+
+        setNFTCards(mappedNFTCards);
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
@@ -64,11 +74,19 @@ export default function Marketplace() {
               All Projects
             </Text>
             <SimpleGrid columns={{ base: 1, md: 4 }} gap="20px" mb={{ base: "20px", xl: "0px" }}>
-              {projects.map((project) => (
-                <ProjectCard key={project._id} project={project} />
-              ))}
-              <AddNFTCard setProjects={setProjects} />
-            </SimpleGrid>
+  {nftCards.map((nftCard, index) => (
+    <NFT
+    key={index}
+    image={NFT1}
+    name={nftCard.name}
+    author={nftCard.author}
+    bidders={nftCard.bidders}
+    download={nftCard.download}
+    description={nftCard.description}
+  />
+))}
+  <AddNFTCard setNFTCards={setNFTCards} />
+</SimpleGrid>
           </Flex>
         </Flex>
       </Grid>
