@@ -18,19 +18,8 @@ import {
   SimpleGrid,
   useColorModeValue,
 } from "@chakra-ui/react";
-// Assets
-// import Usa from "assets/img/dashboards/usa.png";
-// Custom components
-// import MiniStatistics from "components/card/MiniStatistics";
-// import IconBox from "components/icons/IconBox";
 import React from "react";
 import Card from "components/card/Card.js";
-// import {
-//   MdAddTask,
-//   MdAttachMoney,
-//   MdBarChart,
-//   MdFileCopy,
-// } from "react-icons/md";
 import { AddIcon } from "@chakra-ui/icons";
 import ComplexTable from "./ComplexTable";
 import TableTopCreators from "./TableTopCreators";
@@ -212,36 +201,7 @@ export default function ProjectDetails(props) {
         </Box>
       </SidebarContext.Provider>
       <Box pt={{ base: "130px", md: "80px", xl: "140px" }} ml="-50px">
-        <Flex
-          direction="column"
-          w="100%"
-          overflowX={{ sm: "scroll", lg: "hidden" }}
-        >
-          <Flex
-            align={{ sm: "flex-start", lg: "center" }}
-            justify="space-between"
-            w="100%"
-            px="22px"
-            py="3px"
-            pb="0px"
-            mb="0px"
-            boxShadow="0px 40px 58px -20px rgba(112, 144, 176, 0.26)"
-          >
-            <Text
-              color={textColor}
-              style={{ marginLeft: "840px" }}
-              fontSize="xl"
-              fontWeight="600"
-            >
-              Create Task
-            </Text>
-            <Button
-              variant="action"
-              leftIcon={<AddIcon />}
-              onClick={handleNewProjectModalOpen}
-            ></Button>
-          </Flex>
-        </Flex>
+
         <Modal
           isOpen={isNewProjectModalOpen}
           onClose={handleNewProjectModalClose}
