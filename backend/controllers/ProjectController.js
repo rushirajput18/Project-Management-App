@@ -38,7 +38,7 @@ exports.getAllProjects = catchAsync(async (req, res) => {
       }
 
       // Fetch projects based on the query
-      const projects = await Project.find(query).populate("employees");
+      const projects = await Project.find(query).populate(["employees", "leader"]);
 
       res.status(200).json({
         status: "success",
