@@ -90,8 +90,7 @@ export default function UserReports() {
           "http://localhost:3000/project/allProjects",
         );
        
-        // console.log("Response data:", );
-        // setProjectData([response.data.data.projects]);
+
         const projectsArray = response.data.data.projects;
         console.log(
           "Total projects:",
