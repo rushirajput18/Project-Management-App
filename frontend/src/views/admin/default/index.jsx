@@ -1,24 +1,3 @@
-/*!
-  _   _  ___  ____  ___ ________  _   _   _   _ ___   
- | | | |/ _ \|  _ \|_ _|__  / _ \| \ | | | | | |_ _| 
- | |_| | | | | |_) || |  / / | | |  \| | | | | || | 
- |  _  | |_| |  _ < | | / /| |_| | |\  | | |_| || |
- |_| |_|\___/|_| \_\___/____\___/|_| \_|  \___/|___|
-                                                                                                                                                                                                                                                                                                                                       
-=========================================================
-* Horizon UI - v1.1.0
-=========================================================
-
-* Product Page: https://www.horizon-ui.com/
-* Copyright 2023 Horizon UI (https://www.horizon-ui.com/)
-
-* Designed and Coded by Simmmple
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 
 // Chakra imports
 import { useState, useEffect } from 'react';
@@ -39,7 +18,9 @@ import Usa from "assets/img/dashboards/usa.png";
 import MiniCalendar from "components/calendar/MiniCalendar";
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
-import React from "react";
+import React,{useEffect,useState} from "react";
+import axios from 'axios';
+
 import Card from "components/card/Card.js";
 import {
   MdAddTask,
@@ -57,6 +38,7 @@ import PieCard from "views/admin/default/components/PieCard";
 import Tasks from "views/admin/default/components/Tasks";
 import TotalSpent from "views/admin/default/components/TotalSpent";
 import WeeklyRevenue from "views/admin/default/components/WeeklyRevenue";
+
 import {
   columnsDataCheck,
   columnsDataComplex,
@@ -104,12 +86,78 @@ export default function UserReports() {
   };
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
+  const [totalProjects, setTotalProjects] = useState(0);
+  const [projectData, setProjectData] = useState([
+    {
+      name: "Weekly Updates",
+      status: "Approved",
+      date: "12 Jul 2021",
+      progress: 50.5,
+    },
+  ]);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/project/allProjects",
+          {
+            params: {
+              status: "Assigned", // Change this to your desired status
+            },
+          }
+        );
+       
+       const projectsArray = response.data.data.projects.length.toString();
+        
+        if (projectsArray) {
+          setTotalProjects(projectsArray);
+          // console.log("Total projects:", projectsArray);
+        } else {
+          console.log("Projects array is undefined");
+        }
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+    const Projects = async () => {
+
+      try {
+        const response = await axios.get(
+          "http://localhost:3000/project/allProjects",
+        );
+       
+        // console.log("Response data:", );
+        // setProjectData([response.data.data.projects]);
+        const projectsArray = response.data.data.projects;
+        console.log(
+          "Total projects:",
+          projectsArray
+        );
+        if (projectsArray) {
+          setProjectData(projectsArray);
+          // console.log("Total projects:", projectsArray);
+        } else {
+          console.log("Projects array is undefined");
+        }
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+    Projects();
+    fetchProjects();
+  }, []); 
+
+
+
   return (
     <Box pt={['130px', '80px', '80px', '80px']}>
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, "2xl": 6 }}
-        gap='20px'
-        mb='20px'>
+        gap="20px"
+        mb="20px"
+      >
         {/* <MiniStatistics
           startContent={
             <IconBox
@@ -141,19 +189,19 @@ export default function UserReports() {
         <MiniStatistics growth='+23%' name='Sales' value='$574.34' /> */}
         <MiniStatistics
           endContent={
-            <Flex me='-16px' mt='10px'>
-              <FormLabel htmlFor='balance'>
-              </FormLabel>
+            <Flex me="-16px" mt="10px">
+              <FormLabel htmlFor="balance"></FormLabel>
               <Select
-          fontSize='sm'
-          variant='subtle'
-          width='unset'
-          fontWeight='700'>
-          <option value='Overrall'>Overall</option>
-          <option value='project-1'>Project-1</option>
-          <option value='project-2'>Project-2</option>
-          <option value='project-3'>Project-3</option>
-        </Select>
+                fontSize="sm"
+                variant="subtle"
+                width="unset"
+                fontWeight="700"
+              >
+                <option value="Overrall">Overall</option>
+                <option value="project-1">Project-1</option>
+                <option value="project-2">Project-2</option>
+                <option value="project-3">Project-3</option>
+              </Select>
               {/* <Select
                 id='balance'
                 variant='mini'
@@ -166,23 +214,23 @@ export default function UserReports() {
               </Select> */}
             </Flex>
           }
-          name='Total Cost'
-          value='$1,000'
+          name="Total Cost"
+          value="$1,000"
         />
         <YourComponent />
         <MiniStatistics
           startContent={
             <IconBox
-              w='56px'
-              h='56px'
+              w="56px"
+              h="56px"
               bg={boxBg}
               icon={
-                <Icon w='32px' h='32px' as={MdFileCopy} color={brandColor} />
+                <Icon w="32px" h="32px" as={MdFileCopy} color={brandColor} />
               }
             />
           }
-          name='Total Projects'
-          value='3'
+          name="Total Projects"
+          value={totalProjects}
         />
       </SimpleGrid>
 
@@ -190,22 +238,22 @@ export default function UserReports() {
         <TotalSpent />
         <WeeklyRevenue />
       </SimpleGrid> */}
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='20px' mb='20px'>
+      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
         {/* <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} /> */}
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px'>
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
           {/* <DailyTraffic /> */}
           <PieCard />
-          <MiniCalendar minW='483px' mx='260px' selectRange={false} />
+          <MiniCalendar minW="483px" mx="260px" selectRange={false} />
         </SimpleGrid>
       </SimpleGrid>
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap='20px' mb='20px'>
+      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
         <ComplexTable
           columnsData={columnsDataComplex}
-          tableData={tableDataComplex}
+          tableData={projectData}
         />
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 1 }} gap='20px'>
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 1 }} gap="20px">
           {/* <Tasks /> */}
-          <Card px='0px' mb='2px'>
+          <Card px="0px" mb="2px">
             <TableTopCreators
               tableData={tableDataTopCreators}
               columnsData={tableColumnsTopCreators}
