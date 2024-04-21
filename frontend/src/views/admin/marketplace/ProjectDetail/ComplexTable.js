@@ -63,7 +63,7 @@ export default function ColumnsTable(props) {
   const [newTaskName, setNewTaskName] = useState("");
   const [newEmployees, setNewEmployees] = useState("");
   const [newTaskDeadline, setNewTaskDeadline] = useState("");
-  //const [newTaskProgress, setNewTaskProgress] = useState(0);
+  const [newTaskStatus, setNewTaskStatus] = useState("In Progress");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -103,7 +103,7 @@ export default function ColumnsTable(props) {
       } else {
         alert("Invalid date format. Please enter the date in the correct format.");
       }
-    } else {
+    } else {''
       alert("Please enter valid task details.");
     }
   };
@@ -219,18 +219,18 @@ export default function ColumnsTable(props) {
                         {cell.value}
                       </Text>
                     );
-                  // } else if (cell.column.Header === "PROGRESS") {
-                  //   data = (
-                  //     <Flex align='center'>
-                  //       <Progress
-                  //         variant='table'
-                  //         colorScheme='brandScheme'
-                  //         h='8px'
-                  //         w='108px'
-                  //         value={cell.value}
-                  //       />
-                  //     </Flex>
-                  //   );
+                  } else if (cell.column.Header === "PROGRESS") {
+                    data = (
+                      <Flex align='center'>
+                        <Progress
+                          variant='table'
+                          colorScheme='brandScheme'
+                          h='8px'
+                          w='108px'
+                          value={cell.value}
+                        />
+                      </Flex>
+                    );
                   }
                   return (
                     <Td
