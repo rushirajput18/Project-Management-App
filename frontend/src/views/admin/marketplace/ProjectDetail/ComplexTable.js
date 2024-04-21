@@ -103,7 +103,7 @@ export default function ColumnsTable(props) {
       } else {
         alert("Invalid date format. Please enter the date in the correct format.");
       }
-    } else {''
+    } else {
       alert("Please enter valid task details.");
     }
   };
