@@ -212,74 +212,8 @@ export default function ProjectDetails(props) {
         </Box>
       </SidebarContext.Provider>
       <Box pt={{ base: "130px", md: "80px", xl: "140px" }} ml="-50px">
-        <Flex
-          direction="column"
-          w="100%"
-          overflowX={{ sm: "scroll", lg: "hidden" }}
-        >
-          <Flex
-            align={{ sm: "flex-start", lg: "center" }}
-            justify="space-between"
-            w="100%"
-            px="22px"
-            py="3px"
-            pb="0px"
-            mb="0px"
-            boxShadow="0px 40px 58px -20px rgba(112, 144, 176, 0.26)"
-          >
-            <Text
-              color={textColor}
-              style={{ marginLeft: "840px" }}
-              fontSize="xl"
-              fontWeight="600"
-            >
-              Create Task
-            </Text>
-            <Button
-              variant="action"
-              leftIcon={<AddIcon />}
-              onClick={handleNewProjectModalOpen}
-            ></Button>
-          </Flex>
-        </Flex>
-        <Modal
-          isOpen={isNewProjectModalOpen}
-          onClose={handleNewProjectModalClose}
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Create a New Project</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <FormControl mt={4}>
-                <FormLabel>Title</FormLabel>
-                <Input placeholder="Task" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Employees</FormLabel>
-                <Input placeholder="Employee ID" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Deadline</FormLabel>
-                <DatePicker
-                  selected={deadline}
-                  onChange={(date) => setDeadline(date)}
-                  placeholderText="Select deadline"
-                  dateFormat="MM/dd/yyyy" // Format for displaying the selected date
-                />
-              </FormControl>
-              {/* Add more form fields as needed */}
-            </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3}>
-                Create Project
-              </Button>
-              <Button onClick={handleNewProjectModalClose}>Cancel</Button>{" "}
-              {/* Bind the function here */}
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        
+       
 
         <Flex justify="space-between" mx="-20px" mb="20px" gap="20px">
           <SimpleGrid

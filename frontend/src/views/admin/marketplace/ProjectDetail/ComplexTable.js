@@ -18,10 +18,13 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  FormControl,
+  FormLabel,
   Input,
 } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import React, { useMemo, useState } from "react";
+import { isValid, parseISO } from "date-fns";
 import {
   useGlobalFilter,
   usePagination,
@@ -43,30 +46,38 @@ export default function ColumnsTable(props) {
   const [tasks, setTasks] = useState(tableData);
 
   const [newTaskName, setNewTaskName] = useState("");
+  const [newEmployees, setNewEmployees] = useState("");
   const [newTaskDeadline, setNewTaskDeadline] = useState("");
-  const [newTaskProgress, setNewTaskProgress] = useState(0);
+  const [newTaskStatus, setNewTaskStatus] = useState("In Progress");
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleAddTask = () => {
-    if (newTaskName && newTaskDeadline && newTaskProgress >= 0 && newTaskProgress <= 100) {
-      const newTask = {
-        name: newTaskName,
-        status: "Pending", // Set status to "Pending" by default
-        deadline: newTaskDeadline,
-        progress: newTaskProgress,
-      };
-
-      setTasks((prevTasks) => [...prevTasks, newTask]);
-      setNewTaskName("");
-      setNewTaskDeadline("");
-      setNewTaskProgress(0);
-      onClose(); // Close the modal after adding the task
+    if (newTaskName && newTaskDeadline) {
+      const parsedDeadline = parseISO(newTaskDeadline);
+  
+      if (isValid(parsedDeadline)) {
+        const newTask = {
+          name: newTaskName,
+          status: newTaskStatus,
+          deadline: parsedDeadline.toISOString(), // Use toISOString() on the parsed Date object
+          progress: "0",
+          employee: newEmployees,
+        };
+  
+        setTasks((prevTasks) => [...prevTasks, newTask]);
+        setNewTaskName("");
+        setNewTaskDeadline("");
+        setNewTaskStatus("In Progress");
+        setNewEmployees("");
+        onClose();
+      } else {
+        alert("Invalid date format. Please enter the date in the correct format.");
+      }
     } else {
       alert("Please enter valid task details.");
     }
   };
-
   const data = useMemo(() => tasks, [tasks]);
 
   const tableInstance = useTable(
@@ -173,7 +184,7 @@ export default function ColumnsTable(props) {
                         </Text>
                       </Flex>
                     );
-                  } else if (cell.column.Header === "DEADLINE") {
+                  } else if (cell.column.Header === "DATE") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
@@ -216,26 +227,37 @@ export default function ColumnsTable(props) {
           <ModalHeader>Add Task</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Input
-              placeholder="Task Name"
-              value={newTaskName}
-              onChange={(e) => setNewTaskName(e.target.value)}
-              mb={4}
-            />
-            <Input
-              placeholder="Deadline"
-              value={newTaskDeadline}
-              onChange={(e) => setNewTaskDeadline(e.target.value)}
-              mb={4}
-            />
-            <Input
-              placeholder="Progress"
-              type="number"
-              value={newTaskProgress}
-              onChange={(e) => setNewTaskProgress(parseInt(e.target.value))}
-              min={0}
-              max={100}
-            />
+            <FormControl mb={4}>
+              <FormLabel>Task Name</FormLabel>
+              <Input
+                value={newTaskName}
+                onChange={(e) => setNewTaskName(e.target.value)}
+              />
+            </FormControl>
+
+            <FormControl mb={4}>
+              <FormLabel>Deadline</FormLabel>
+              <Input
+                type="date"
+                value={newTaskDeadline}
+                onChange={(e) => setNewTaskDeadline(e.target.value)}
+              />
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Status</FormLabel>
+              <Input
+                value={newTaskStatus}
+                onChange={(e) => setNewTaskStatus(e.target.value)}
+              />
+            </FormControl>
+
+            <FormControl mb={4}>
+              <FormLabel>Employee ID</FormLabel>
+              <Input
+                value={newEmployees}
+                onChange={(e) => setNewEmployees(e.target.value)}
+              />
+            </FormControl>
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={handleAddTask}>
