@@ -18,7 +18,8 @@ const EmployeeSchema = new mongoose.Schema({
         // required:true
     },
     BestTime:{
-        type:Date,
+        type:Number,
+        default: 0
     }
 });
 

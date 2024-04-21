@@ -6,7 +6,7 @@ const employeeController = require("../controllers/Employee");
 router.get("/employees", employeeController.getAllEmployees);
 router.get("/employee/:id", employeeController.getEmployeeById);
 router.delete("/employee/:id", employeeController.deleteEmployeeById);
-
+router.get("/getTopEmployees",employeeController.getTopEmployees)
 // Route to get tasks of a particular employee for a project
 router.get(
   "/employees/:employeeId/tasks/:projectId",

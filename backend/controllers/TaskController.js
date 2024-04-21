@@ -68,17 +68,28 @@ exports.createTask = catchAsync(async (req, res) => {
 });
 
 // Update task by ID
-exports.updateTaskById = catchAsync(async (req, res) => {
-    const { taskId } = req.params;
-    const { title, projectID, employeeID, status, dueDate } = req.body;
-    
-    const updatedTask = await Task.findByIdAndUpdate(taskId, { title, projectID, employeeID, status, dueDate }, { new: true });
-    
-    if (!updatedTask) {
-      return res.status(404).json({ message: "Task not found" });
-    }
-    
-    res.json({ message: "Task updated successfully", task: updatedTask });
+exports.updateTaskBytitle =catchAsync(async (req, res) => {
+  const { title } = req.body;
+  const task = await Task.findOne({ title: title });
+
+  if (!task) {
+    return res.status(404).json({ message: "Task not found" });
+  }
+
+  task.CompletedAt = new Date();
+
+  const updatedTask = await task.save();
+
+  const employee = await Employee.findOne({ _id: task.employeeID }); // Await the execution of the query
+  if (!employee) {
+    return res.status(404).json({ message: "Employee not found" });
+  }
+
+  const btime = (updatedTask.dueDate- updatedTask.CompletedAt ) / (updatedTask.dueDate - updatedTask.createdAt);
+
+  employee.BestTime = employee.BestTime + btime;
+  const updatedEmployee = await employee.save();
+  res.json({ message: "Task updated successfully", task: updatedTask });
 });
 
 // Delete task by ID

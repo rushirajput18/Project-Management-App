@@ -18,7 +18,6 @@ import Usa from "assets/img/dashboards/usa.png";
 import MiniCalendar from "components/calendar/MiniCalendar";
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
-import React,{useEffect,useState} from "react";
 import axios from 'axios';
 
 import Card from "components/card/Card.js";
@@ -51,6 +50,22 @@ import { tableColumnsTopCreators } from "views/admin/default/variables/tableColu
 
 export default function UserReports() {
   // Chakra Color Mode
+  const [topEmployees, setTopEmployees] = useState([]);
+
+    
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const response = await Axios.get('http://localhost:5000/employee/getTopEmployees');
+
+      setTopEmployees(response.data);
+    } catch (error) {
+      console.error('Error fetching top employees:', error);
+    }
+  };
   const YourComponent = () => {
     const [taskCount, setTaskCount] = useState(null);
 
@@ -255,7 +270,7 @@ export default function UserReports() {
           {/* <Tasks /> */}
           <Card px="0px" mb="2px">
             <TableTopCreators
-              tableData={tableDataTopCreators}
+              tableData={topEmployees}
               columnsData={tableColumnsTopCreators}
             />
           </Card>

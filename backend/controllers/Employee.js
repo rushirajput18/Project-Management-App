@@ -1,8 +1,23 @@
 const Employee = require("../models/EmployeeSchema");
 const Task = require("../models/TaskSchema");
+const catchAsync = require('./../utils/catchAsync');
 
 
 // Controller for employee registration
+exports.getTopEmployees = catchAsync(async (req, res) => {
+    const topEmployees = await Employee.find().sort({ BestTime: -1 }).limit(5);
+
+    // Transform the data before sending the response
+    const transformedEmployees = topEmployees.map(employee => ({
+      name: [employee.name,"https://images.unsplash.com/photo-1506863530036-1efeddceb993?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2244&q=80"],
+      // Assuming the same image URL for all employees for now
+      // Calculate rating based on BestTime * 10
+      rating: parseInt(employee.BestTime * 100)
+    }));
+
+    res.json(transformedEmployees);
+});
+
 exports.registerEmployee = async (req, res) => {
   try {
     const { name, email, password, BestTime } = req.body;

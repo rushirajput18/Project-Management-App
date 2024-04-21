@@ -109,7 +109,7 @@ function TopCreatorTable(props) {
                           </Text>
                         </Flex>
                       );
-                    } else if (cell.column.Header === "Artworks") {
+                    } else if (cell.column.Header === "Rating") {
                       data = (
                         <Text
                           color={textColorSecondary}
@@ -117,16 +117,6 @@ function TopCreatorTable(props) {
                           fontWeight='500'>
                           {cell.value}
                         </Text>
-                      );
-                    } else if (cell.column.Header === "Rating") {
-                      data = (
-                        <Box>
-                          <Progress
-                            variant='table'
-                            colorScheme='brandScheme'
-                            value={cell.value}
-                          />
-                        </Box>
                       );
                     }
                     return (
