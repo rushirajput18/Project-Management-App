@@ -69,13 +69,27 @@ export default function ColumnsTable(props) {
 
   const handleAddTask = () => {
     if (newTaskName && newTaskDeadline) {
-      const parsedDeadline = parseISO(newTaskDeadline);
+      const isoDateString = newTaskDeadline;
+                    const isoDate = new Date(isoDateString);
+
+                    // Formatting the date
+                    const options = {
+                      year: "numeric",
+                      month: "long", // or 'short', 'numeric', etc. based on your preference
+                      day: "numeric",
+                    };
+
+                    // Convert the ISO date to a formatted string
+                    const formattedDate = isoDate.toLocaleDateString(
+                      "en-US",
+                      options
+                    );
   
-      if (isValid(parsedDeadline)) {
+      if (isValid(formattedDate)) {
         const newTask = {
           name: newTaskName,
           status: newTaskStatus,
-          deadline: parsedDeadline.toISOString(), // Use toISOString() on the parsed Date object
+          deadline: formattedDate, // Use toISOString() on the parsed Date object
           progress: "0",
           employee: newEmployees,
         };
