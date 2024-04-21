@@ -16,13 +16,21 @@ exports.createProject =catchAsync(async(req,res)=>{
 });
 
 exports.getAllProjects = catchAsync(async (req, res) => {
-      const projects = await Project.find().populate('employees');
-  
+      let query = {}; // Initialize an empty query object
+
+      // Check if the status query parameter exists
+      if (req.query.status) {
+        query.status = req.query.status; // Set the status filter in the query object
+      }
+
+      // Fetch projects based on the query
+      const projects = await Project.find(query).populate("employees");
+
       res.status(200).json({
-        status: 'success',
+        status: "success",
         data: {
-          projects: projects
-        }
+          projects: projects,
+        },
       });
   });
 
