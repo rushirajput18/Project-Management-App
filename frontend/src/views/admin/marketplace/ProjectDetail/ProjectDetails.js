@@ -18,19 +18,8 @@ import {
   SimpleGrid,
   useColorModeValue,
 } from "@chakra-ui/react";
-// Assets
-// import Usa from "assets/img/dashboards/usa.png";
-// Custom components
-// import MiniStatistics from "components/card/MiniStatistics";
-// import IconBox from "components/icons/IconBox";
 import React from "react";
 import Card from "components/card/Card.js";
-// import {
-//   MdAddTask,
-//   MdAttachMoney,
-//   MdBarChart,
-//   MdFileCopy,
-// } from "react-icons/md";
 import { AddIcon } from "@chakra-ui/icons";
 import ComplexTable from "./ComplexTable";
 import TableTopCreators from "./TableTopCreators";
