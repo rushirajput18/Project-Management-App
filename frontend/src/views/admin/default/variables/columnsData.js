@@ -1,3 +1,4 @@
+import {format, parseISO} from "date-fns"
 export const columnsDataCheck = [
   {
     Header: "NAME",
@@ -13,7 +14,7 @@ export const columnsDataCheck = [
   },
   {
     Header: "DATE",
-    accessor: "date",
+    accessor: (row) => format(parseISO(row.deadline), ""),
   },
 ];
 export const columnsDataComplex = [

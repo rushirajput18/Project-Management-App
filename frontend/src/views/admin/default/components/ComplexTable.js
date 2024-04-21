@@ -65,7 +65,7 @@ export default function ColumnsTable(props) {
           fontSize='22px'
           fontWeight='700'
           lineHeight='100%'>
-          Complex Table
+          Project Table
         </Text>
         <Menu />
       </Flex>
@@ -100,28 +100,28 @@ export default function ColumnsTable(props) {
                   let data = "";
                   if (cell.column.Header === "NAME") {
                     data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
+                      <Text color={textColor} fontSize="sm" fontWeight="700">
+                        {cell.row.original.title}
                       </Text>
                     );
                   } else if (cell.column.Header === "STATUS") {
                     data = (
-                      <Flex align='center'>
+                      <Flex align="center">
                         <Icon
-                          w='24px'
-                          h='24px'
-                          me='5px'
+                          w="24px"
+                          h="24px"
+                          me="5px"
                           color={
                             cell.value === "Approved"
                               ? "green.500"
                               : cell.value === "Disable"
                               ? "red.500"
-                              : cell.value === "Error"
+                              : cell.value === "Assigned"
                               ? "orange.500"
                               : null
                           }
                           as={
-                            cell.value === "Approved"
+                            cell.value === "Assigned"
                               ? MdCheckCircle
                               : cell.value === "Disable"
                               ? MdCancel
@@ -130,25 +130,25 @@ export default function ColumnsTable(props) {
                               : null
                           }
                         />
-                        <Text color={textColor} fontSize='sm' fontWeight='700'>
-                          {cell.value}
+                        <Text color={textColor} fontSize="sm" fontWeight="700">
+                          {cell.row.original.status}
                         </Text>
                       </Flex>
                     );
-                  } else if (cell.column.Header === "DEADLINE") {
+                  }else if (cell.column.Header === "DATE") {
                     data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
+                      <Text color={textColor} fontSize="sm" fontWeight="700">
+                        {cell.row.original.StartDate}
                       </Text>
                     );
                   } else if (cell.column.Header === "PROGRESS") {
                     data = (
-                      <Flex align='center'>
+                      <Flex align="center">
                         <Progress
-                          variant='table'
-                          colorScheme='brandScheme'
-                          h='8px'
-                          w='108px'
+                          variant="table"
+                          colorScheme="brandScheme"
+                          h="8px"
+                          w="108px"
                           value={cell.value}
                         />
                       </Flex>
