@@ -69,7 +69,8 @@ export default function ColumnsTable(props) {
 
   const handleAddTask = () => {
     if (newTaskName && newTaskDeadline) {
-      const parsedDeadline = parseISO(newTaskDeadline);
+      
+const parsedDeadline = parseISO(newTaskDeadline);
   
       if (isValid(parsedDeadline)) {
         const newTask = {
@@ -89,7 +90,7 @@ export default function ColumnsTable(props) {
       } else {
         alert("Invalid date format. Please enter the date in the correct format.");
       }
-    } else {''
+    } else {
       alert("Please enter valid task details.");
     }
   };

@@ -282,7 +282,8 @@ export default function ColumnsTable(props) {
 
             <FormControl mb={4}>
               <FormLabel>Employee ID</FormLabel>
-              <Input
+              
+<Input
                 value={newEmployees}
                 onChange={(e) => setNewEmployees(e.target.value)}
               />
