@@ -201,45 +201,8 @@ export default function ProjectDetails(props) {
         </Box>
       </SidebarContext.Provider>
       <Box pt={{ base: "130px", md: "80px", xl: "140px" }} ml="-50px">
-
-        <Modal
-          isOpen={isNewProjectModalOpen}
-          onClose={handleNewProjectModalClose}
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Create a New Project</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <FormControl mt={4}>
-                <FormLabel>Title</FormLabel>
-                <Input placeholder="Task" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Employees</FormLabel>
-                <Input placeholder="Employee ID" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Deadline</FormLabel>
-                <DatePicker
-                  selected={deadline}
-                  onChange={(date) => setDeadline(date)}
-                  placeholderText="Select deadline"
-                  dateFormat="MM/dd/yyyy" // Format for displaying the selected date
-                />
-              </FormControl>
-              {/* Add more form fields as needed */}
-            </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3}>
-                Create Project
-              </Button>
-              <Button onClick={handleNewProjectModalClose}>Cancel</Button>{" "}
-              {/* Bind the function here */}
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        
+       
 
         <Flex justify="space-between" mx="-20px" mb="20px" gap="20px">
           <SimpleGrid
