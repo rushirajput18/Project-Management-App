@@ -1,5 +1,5 @@
-const Task =require('./../models/TaskSchema');
-const Employee = require('./../models/Employee');
+// const Task =require('./../models/TaskSchema');
+const Employee = require('./../models/EmployeeSchema');
 const catchAsync = require('./../utils/catchAsync');
 
 const Task = require('../models/TaskSchema');
@@ -16,6 +16,18 @@ const Task = require('../models/TaskSchema');
 // };
 
 // Get task by ID
+exports.getTaskByStatus = catchAsync(async(req,res)=>{
+  const {status} = req.body.status;
+  const tasks = await Task.find({status});
+  res.status(200).json(tasks);
+})
+
+exports.countTask = catchAsync(async (req, res) => {
+  const count = await Task.countDocuments({ status: { $ne: 'Done' } });
+
+  res.status(200).json({ taskCount:count });
+})
+
 exports.getEmployeeByTaskId = catchAsync(async (req, res) => {
 
       const { taskId } = req.params;

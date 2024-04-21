@@ -9,12 +9,10 @@ const TaskSchema = new mongoose.Schema({
     projectID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Project',
-      required: true
     },
     employeeID: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Employee',
-      required: true
     },
     status: {
       type: String,
@@ -23,7 +21,6 @@ const TaskSchema = new mongoose.Schema({
     },
     dueDate: {
       type: Date,
-      required: true
     },
     createdAt: {
       type: Date,
