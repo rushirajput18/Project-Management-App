@@ -1,4 +1,4 @@
-import {format, parseISO} from "date-fns"
+import { format, parseISO } from "date-fns";
 export const columnsDataCheck = [
   {
     Header: "NAME",
@@ -14,7 +14,7 @@ export const columnsDataCheck = [
   },
   {
     Header: "DATE",
-    accessor: (row) => format(parseISO(row.deadline), ""),
+    accessor: (row) => format(parseISO(row.deadline), "dd MMM yyyy"),
   },
 ];
 export const columnsDataComplex = [
@@ -28,7 +28,7 @@ export const columnsDataComplex = [
   },
   {
     Header: "DATE",
-    accessor: "date",
+    accessor: (row) => format(parseISO(row.deadline), "dd MMM yyyy"),
   },
   {
     Header: "PROGRESS",

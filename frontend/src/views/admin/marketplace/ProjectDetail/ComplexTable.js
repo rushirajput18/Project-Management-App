@@ -10,8 +10,21 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  FormControl,
+  FormLabel,
+  Input,
 } from "@chakra-ui/react";
-import React, { useMemo } from "react";
+import { Button } from "@chakra-ui/react";
+import React, { useMemo, useState } from "react";
+import { isValid, parseISO } from "date-fns";
 import {
   useGlobalFilter,
   usePagination,
@@ -25,11 +38,47 @@ import Menu from "components/menu/MainMenu";
 
 // Assets
 import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
+
 export default function ColumnsTable(props) {
   const { columnsData, tableData } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
-  const data = useMemo(() => tableData, [tableData]);
+  const [tasks, setTasks] = useState(tableData);
+
+  const [newTaskName, setNewTaskName] = useState("");
+  const [newEmployees, setNewEmployees] = useState("");
+  const [newTaskDeadline, setNewTaskDeadline] = useState("");
+  const [newTaskStatus, setNewTaskStatus] = useState("In Progress");
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const handleAddTask = () => {
+    if (newTaskName && newTaskDeadline) {
+      const parsedDeadline = parseISO(newTaskDeadline);
+  
+      if (isValid(parsedDeadline)) {
+        const newTask = {
+          name: newTaskName,
+          status: newTaskStatus,
+          deadline: parsedDeadline.toISOString(), // Use toISOString() on the parsed Date object
+          progress: "0",
+          employee: newEmployees,
+        };
+  
+        setTasks((prevTasks) => [...prevTasks, newTask]);
+        setNewTaskName("");
+        setNewTaskDeadline("");
+        setNewTaskStatus("In Progress");
+        setNewEmployees("");
+        onClose();
+      } else {
+        alert("Invalid date format. Please enter the date in the correct format.");
+      }
+    } else {
+      alert("Please enter valid task details.");
+    }
+  };
+  const data = useMemo(() => tasks, [tasks]);
 
   const tableInstance = useTable(
     {
@@ -55,19 +104,19 @@ export default function ColumnsTable(props) {
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
   return (
     <Card
-      direction='column'
-      w='100%'
-      px='0px'
-      overflowX={{ sm: "scroll", lg: "hidden" }}>
-      <Flex px='25px' justify='space-between' mb='10px' align='center'>
-        <Text
-          color={textColor}
-          fontSize='22px'
-          fontWeight='700'
-          lineHeight='100%'>
+      direction="column"
+      w="100%"
+      px="0px"
+      overflowX={{ sm: "scroll", lg: "hidden" }}
+    >
+      <Flex px="25px" justify="space-between" mb="10px" align="center">
+        <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
           Complex Table
         </Text>
         <Menu />
+        <Button colorScheme="brand" onClick={onOpen}>
+          Add Task
+        </Button>
       </Flex>
       <Table {...getTableProps()} variant='simple' color='gray.500' mb='24px'>
         <Thead>
@@ -135,7 +184,7 @@ export default function ColumnsTable(props) {
                         </Text>
                       </Flex>
                     );
-                  } else if (cell.column.Header === "DEADLINE") {
+                  } else if (cell.column.Header === "DATE") {
                     data = (
                       <Text color={textColor} fontSize='sm' fontWeight='700'>
                         {cell.value}
@@ -172,6 +221,54 @@ export default function ColumnsTable(props) {
           })}
         </Tbody>
       </Table>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add Task</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <FormControl mb={4}>
+              <FormLabel>Task Name</FormLabel>
+              <Input
+                value={newTaskName}
+                onChange={(e) => setNewTaskName(e.target.value)}
+              />
+            </FormControl>
+
+            <FormControl mb={4}>
+              <FormLabel>Deadline</FormLabel>
+              <Input
+                type="date"
+                value={newTaskDeadline}
+                onChange={(e) => setNewTaskDeadline(e.target.value)}
+              />
+            </FormControl>
+            <FormControl mb={4}>
+              <FormLabel>Status</FormLabel>
+              <Input
+                value={newTaskStatus}
+                onChange={(e) => setNewTaskStatus(e.target.value)}
+              />
+            </FormControl>
+
+            <FormControl mb={4}>
+              <FormLabel>Employee ID</FormLabel>
+              <Input
+                value={newEmployees}
+                onChange={(e) => setNewEmployees(e.target.value)}
+              />
+            </FormControl>
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={handleAddTask}>
+              Add Task
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Card>
   );
 }

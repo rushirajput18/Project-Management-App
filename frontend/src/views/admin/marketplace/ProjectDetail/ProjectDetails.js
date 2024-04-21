@@ -1,6 +1,6 @@
 // Chakra imports
 import {
-  Avatar,
+  // Avatar,
   Box,
   Flex,
   FormLabel,
@@ -18,19 +18,8 @@ import {
   SimpleGrid,
   useColorModeValue,
 } from "@chakra-ui/react";
-// Assets
-// import Usa from "assets/img/dashboards/usa.png";
-// Custom components
-// import MiniStatistics from "components/card/MiniStatistics";
-// import IconBox from "components/icons/IconBox";
 import React from "react";
 import Card from "components/card/Card.js";
-// import {
-//   MdAddTask,
-//   MdAttachMoney,
-//   MdBarChart,
-//   MdFileCopy,
-// } from "react-icons/md";
 import { AddIcon } from "@chakra-ui/icons";
 import ComplexTable from "./ComplexTable";
 import TableTopCreators from "./TableTopCreators";
@@ -39,7 +28,7 @@ import {
   columnsDataComplex,
 } from "views/admin/default/variables/columnsData";
 
-import { Portal, useDisclosure, Text, Button, Link } from "@chakra-ui/react";
+import { useDisclosure, Text, Button } from "@chakra-ui/react";
 import Footer from "components/footer/FooterAdmin.js";
 // Layout components
 import Navbar from "components/navbar/NavbarAdmin.js";
@@ -49,7 +38,7 @@ import { useState } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
 import PieCard from "./PieCard";
-import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
+// import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
 import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/default/variables/tableColumnsTopCreators";
@@ -61,7 +50,7 @@ export default function ProjectDetails(props) {
   // states and functions
   const textColor = useColorModeValue("navy.700", "white");
   const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
-  const textColorSecondary = useColorModeValue("secondaryGray.600", "white");
+  // const textColorSecondary = useColorModeValue("secondaryGray.600", "white");
   const [deadline, setDeadline] = useState(null);
 
   const [fixed] = useState(false);
@@ -168,8 +157,8 @@ export default function ProjectDetails(props) {
   document.documentElement.dir = "ltr";
   const { onOpen } = useDisclosure();
   document.documentElement.dir = "ltr";
-  const brandColor = useColorModeValue("brand.500", "white");
-  const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
+  // const brandColor = useColorModeValue("brand.500", "white");
+  // const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
 
   return (
     <Box display="flex" flexDirection="row">
@@ -212,74 +201,8 @@ export default function ProjectDetails(props) {
         </Box>
       </SidebarContext.Provider>
       <Box pt={{ base: "130px", md: "80px", xl: "140px" }} ml="-50px">
-        <Flex
-          direction="column"
-          w="100%"
-          overflowX={{ sm: "scroll", lg: "hidden" }}
-        >
-          <Flex
-            align={{ sm: "flex-start", lg: "center" }}
-            justify="space-between"
-            w="100%"
-            px="22px"
-            py="3px"
-            pb="0px"
-            mb="0px"
-            boxShadow="0px 40px 58px -20px rgba(112, 144, 176, 0.26)"
-          >
-            <Text
-              color={textColor}
-              style={{ marginLeft: "840px" }}
-              fontSize="xl"
-              fontWeight="600"
-            >
-              Create Task
-            </Text>
-            <Button
-              variant="action"
-              leftIcon={<AddIcon />}
-              onClick={handleNewProjectModalOpen}
-            ></Button>
-          </Flex>
-        </Flex>
-        <Modal
-          isOpen={isNewProjectModalOpen}
-          onClose={handleNewProjectModalClose}
-        >
-          <ModalOverlay />
-          <ModalContent>
-            <ModalHeader>Create a New Project</ModalHeader>
-            <ModalCloseButton />
-            <ModalBody>
-              <FormControl mt={4}>
-                <FormLabel>Title</FormLabel>
-                <Input placeholder="Task" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Employees</FormLabel>
-                <Input placeholder="Employee ID" />
-              </FormControl>
-              <FormControl>
-                <FormLabel>Deadline</FormLabel>
-                <DatePicker
-                  selected={deadline}
-                  onChange={(date) => setDeadline(date)}
-                  placeholderText="Select deadline"
-                  dateFormat="MM/dd/yyyy" // Format for displaying the selected date
-                />
-              </FormControl>
-              {/* Add more form fields as needed */}
-            </ModalBody>
-
-            <ModalFooter>
-              <Button colorScheme="blue" mr={3}>
-                Create Project
-              </Button>
-              <Button onClick={handleNewProjectModalClose}>Cancel</Button>{" "}
-              {/* Bind the function here */}
-            </ModalFooter>
-          </ModalContent>
-        </Modal>
+        
+       
 
         <Flex justify="space-between" mx="-20px" mb="20px" gap="20px">
           <SimpleGrid
