@@ -29,7 +29,7 @@ export default function Marketplace() {
           description: project.description,
           author: project.leader ? project.leader.name : "Unknown", // Check if leader exists before accessing its name
           bidders: project.employees.map((employee) => employee.name), // Assuming employees have a 'name' field
-          image: NFT1,
+          //image: NFT1,
         }));
 
         setNFTCards(mappedNFTCards);
@@ -71,7 +71,7 @@ export default function Marketplace() {
   {nftCards.map((nftCard, index) => (
     <NFT
     key={index}
-    image={nftCard.image}
+    image={NFT1}
     name={nftCard.name}
     author={nftCard.author}
     bidders={nftCard.bidders}

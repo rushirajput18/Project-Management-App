@@ -16,6 +16,7 @@ import Card from "components/card/Card.js";
 import React, { useState } from "react";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
 import { Link } from "react-router-dom";
+import NFT1 from "../../assets/img/nfts/Nft1.png"
 
 export default function NFT(props) {
   const { image, name, author, bidders, download, description } = props;
@@ -30,7 +31,7 @@ export default function NFT(props) {
       <Flex direction={{ base: "column" }} justify='center'>
         <Box mb={{ base: "20px", "2xl": "20px" }} position='relative'>
           <Image
-            src={image}
+            src={NFT1}
             w={{ base: "100%", "3xl": "100%" }}
             h={{ base: "100%", "3xl": "100%" }}
             borderRadius='20px'
