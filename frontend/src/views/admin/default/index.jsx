@@ -117,7 +117,7 @@ export default function UserReports() {
 
       try {
         const response = await axios.get(
-          "http://localhost:3000/project/allProjects",
+          "http://localhost:5000/project/allProjects",
           {
             params: {
               status: "Assigned", // Change this to your desired status
@@ -138,21 +138,47 @@ export default function UserReports() {
       }
     };
     const Projects = async () => {
-
       try {
         const response = await axios.get(
-          "http://localhost:3000/project/allProjects",
+          "http://localhost:5000/project/allProjects"
         );
-       
 
         const projectsArray = response.data.data.projects;
-        console.log(
-          "Total projects:",
-          projectsArray
+        console.log("Total projects:", projectsArray);
+
+        // Fetch progress data from the backend
+        const progressResponse = await axios.get(
+          "http://localhost:5000/project/pieChart"
         );
-        if (projectsArray) {
-          setProjectData(projectsArray);
-          // console.log("Total projects:", projectsArray);
+        const progressData = progressResponse.data;
+
+        // console.log("progress Data" + JSON.stringify(progressResponse));
+
+        // Map through projects and assign donePercentage from progress data
+        const projectsWithProgress = projectsArray.map((project) => {
+          // Find progress data corresponding to the project ID
+          const progress = progressData.find(
+            (progressItem) => progressItem._id === project._id
+          );
+
+          if (progress) {
+            console.log("Matched ID:", project._id);
+          }
+
+          // If progress data is found, assign donePercentage to the project
+          if (progress) {
+            project.donePercentage = progress.donePercentage;
+          } else {
+            // If progress data is not found for the project, set donePercentage to 0 or any default value
+            console.log("ashok");
+            project.donePercentage = 0;
+          }
+
+          return project;
+        });
+
+        if (projectsWithProgress) {
+          setProjectData(projectsWithProgress);
         } else {
           console.log("Projects array is undefined");
         }
