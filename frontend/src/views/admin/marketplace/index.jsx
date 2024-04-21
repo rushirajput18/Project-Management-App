@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-
+import React, { useState,useEffect } from "react";
+import axios from "axios";
 // Chakra imports
 import {
   
@@ -11,51 +11,36 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 import NFT from "components/card/NFT";
-import AddNFTCard from "./AddNFTCard"; // Import the new component
-
-import Nft4 from "assets/img/nfts/Nft4.png";
-import Avatar1 from "assets/img/avatars/avatar1.png";
-import Avatar2 from "assets/img/avatars/avatar2.png";
-import Avatar3 from "assets/img/avatars/avatar3.png";
-import Avatar4 from "assets/img/avatars/avatar4.png";
-
+import NFT1 from "assets/img/nfts/Nft1.png"
+import AddNFTCard from "./AddNFTCard"; // Import the new componen
 export default function Marketplace() {
-  const [nftCards, setNFTCards] = useState([
-    // Add your initial NFT cards here
-    {
-      name: "Swipe Circles",
-      author: "By Peter Will",
-      bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
-      image: Nft4,
-      currentbid: "The motive of this task is to integrate arduino uno with code such that the code executed should be uploaded to arduino and arduino should work.",
-      // download:"/projectdetails",
-    },
-    {
-      name: "Swipe Circles",
-      author: "By Peter Will",
-      bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
-      image: Nft4,
-      currentbid: "The motive of this task is to integrate arduino uno with code such that the code executed should be uploaded to arduino and arduino should work.",
-      // download:"/projectdetails",
-    },
-    {
-      name: "Swipe Circles",
-      author: "By Peter Will",
-      bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
-      image: Nft4,
-      currentbid: "The motive of this task is to integrate arduino uno with code such that the code executed should be uploaded to arduino and arduino should work.",
-      // download:"/projectdetails",
-    },
-    {
-      name: "Swipe Circles",
-      author: "By Peter Will",
-      bidders: [Avatar1, Avatar2, Avatar3, Avatar4, Avatar1, Avatar1, Avatar1, Avatar1],
-      image: Nft4,
-      currentbid: "The motive of this task is to integrate arduino uno with code such that the code executed should be uploaded to arduino and arduino should work.",
-      // download:"/projectdetails",
-    },
-    // ... (Other initial NFT cards)
-  ]);
+  const [nftCards, setNFTCards] = useState([]);
+
+  useEffect(() => {
+    // Fetch project data from the backend API
+    const fetchProjects = async () => {
+      try {
+        const response = await axios.get("http://localhost:5000/project/allProjects");
+        const projects = response.data.data.projects;
+
+        // Map projects data to NFT card format
+        const mappedNFTCards = projects.map((project) => ({
+          name: project.title,
+          description: project.description,
+          author: project.leader ? project.leader.name : "Unknown", // Check if leader exists before accessing its name
+          bidders: project.employees.map((employee) => employee.name), // Assuming employees have a 'name' field
+          image: NFT1,
+        }));
+
+        setNFTCards(mappedNFTCards);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+      }
+    };
+
+    fetchProjects();
+  }, []); // Empty dependency array to run the effect only once
+
   // Chakra Color Mode
   const textColor = useColorModeValue("secondaryGray.900", "white");
   // const textColorBrand = useColorModeValue("brand.500", "white");
@@ -85,15 +70,15 @@ export default function Marketplace() {
             <SimpleGrid columns={{ base: 1, md: 4 }} gap="20px" mb={{ base: "20px", xl: "0px" }}>
   {nftCards.map((nftCard, index) => (
     <NFT
-      key={index}
-      name={nftCard.name}
-      author={nftCard.author}
-      bidders={nftCard.bidders}
-      image={nftCard.image}
-      currentbid={nftCard.currentbid}
-      download={nftCard.download}
-    />
-  ))}
+    key={index}
+    image={nftCard.image}
+    name={nftCard.name}
+    author={nftCard.author}
+    bidders={nftCard.bidders}
+    download={nftCard.download}
+    description={nftCard.description}
+  />
+))}
   <AddNFTCard setNFTCards={setNFTCards} />
 </SimpleGrid>
           </Flex>

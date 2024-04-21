@@ -14,7 +14,7 @@ export const columnsDataCheck = [
   },
   {
     Header: "DATE",
-    accessor: (row) => format(parseISO(row.deadline), "dd MMM yyyy"),
+    accessor: "date",
   },
 ];
 export const columnsDataComplex = [
@@ -28,7 +28,7 @@ export const columnsDataComplex = [
   },
   {
     Header: "DATE",
-    accessor: (row) => format(parseISO(row.deadline), "dd MMM yyyy"),
+    accessor: "date",
   },
   {
     Header: "PROGRESS",

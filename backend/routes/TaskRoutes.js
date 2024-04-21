@@ -2,7 +2,7 @@ const express=require('express');
 const router=express.Router();
 const TaskController=require('./../controllers/TaskController')
 
-router.get('/getTask',TaskController.getTaskById);
+router.get('/getTask/:taskId',TaskController.getTaskById);
 router.post('/createTask',TaskController.createTask);
 router.delete('/deleteTask',TaskController.deleteTaskById);
 router.patch('/updateTask',TaskController.updateTaskById);
