@@ -4,6 +4,7 @@ const Task=require('./../models/TaskSchema');
 const catchAsync = require('./../utils/catchAsync');
 
 
+
 exports.createProject =catchAsync(async(req,res)=>{
         // console.log(req.body);
         const newProject = await Project.create(req.body);
@@ -150,5 +151,31 @@ exports.getTasks = catchAsync(async (req, res) => {
 });
 
 
+exports.getPieChartData= catchAsync(async (req, res) => {
+  const result = await Task.aggregate([
+    {
+      $group: {
+        _id: '$projectID', // Group by project ID
+        totalTasks: { $sum: 1 },
+        todoCount: { $sum: { $cond: [{ $eq: ['$status', 'To Do'] }, 1, 0] } },
+        inProgressCount: { $sum: { $cond: [{ $eq: ['$status', 'In Progress'] }, 1, 0] } },
+        doneCount: { $sum: { $cond: [{ $eq: ['$status', 'Done'] }, 1, 0] } }
+      }
+    },
+    {
+      $project: {
+        _id: 1,
+        totalTasks: 1,
+        todoPercentage: { $multiply: [{ $divide: ['$todoCount', '$totalTasks'] }, 100] },
+        inProgressPercentage: { $multiply: [{ $divide: ['$inProgressCount', '$totalTasks'] }, 100] },
+        donePercentage: { $multiply: [{ $divide: ['$doneCount', '$totalTasks'] }, 100] }
+      }
+    }
+  ]);
+  
+
+    res.status(200).json(result);
+
+})
 
   

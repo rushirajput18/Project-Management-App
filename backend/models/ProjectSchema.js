@@ -12,7 +12,7 @@ const ProjectSchema = mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['Assigned', 'In Process', 'Completed'],
+        enum: ['Assigned', 'In Progress', 'Completed'],
         default: 'Assigned'
       },
       employees: [{

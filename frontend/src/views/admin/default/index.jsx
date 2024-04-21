@@ -1,5 +1,7 @@
 
 // Chakra imports
+import { useState, useEffect } from 'react';
+import Axios from 'axios';
 import {
   Avatar,
   Box,
@@ -26,6 +28,8 @@ import {
   MdBarChart,
   MdFileCopy,
 } from "react-icons/md";
+
+
 import CheckTable from "views/admin/default/components/CheckTable";
 import ComplexTable from "views/admin/default/components/ComplexTable";
 import DailyTraffic from "views/admin/default/components/DailyTraffic";
@@ -44,8 +48,42 @@ import tableDataComplex from "views/admin/default/variables/tableDataComplex.jso
 import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/default/variables/tableColumnsTopCreators";
 
+
 export default function UserReports() {
   // Chakra Color Mode
+  const YourComponent = () => {
+    const [taskCount, setTaskCount] = useState(null);
+
+    useEffect(() => {
+      fetchData();
+    }, []);
+
+    const fetchData = async () => {
+      try {
+        const response = await Axios.get('http://localhost:5000/task/countTask');
+        // console.log(response);
+        setTaskCount(response.data.taskCount); // Assuming your API returns the task count in the format { taskCount: 6 }
+      } catch (error) {
+        console.error('Error fetching task count:', error);
+      }
+    };
+
+    return (
+      // Your JSX code that uses taskCount
+      <MiniStatistics
+        startContent={
+          <IconBox
+            w='56px'
+            h='56px'
+            bg='linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)'
+            icon={<Icon w='28px' h='28px' as={MdAddTask} color='white' />}
+          />
+        }
+        name='Total Tasks'
+        value={taskCount !== null ? taskCount.toString() : 'Loading...'}
+      />
+    );
+  };
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
   const [totalProjects, setTotalProjects] = useState(0);
@@ -114,7 +152,7 @@ export default function UserReports() {
 
 
   return (
-    <Box pt={{ base: "130px", md: "80px", xl: "80px" }}>
+    <Box pt={['130px', '80px', '80px', '80px']}>
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, "2xl": 6 }}
         gap="20px"
@@ -179,18 +217,7 @@ export default function UserReports() {
           name="Total Cost"
           value="$1,000"
         />
-        <MiniStatistics
-          startContent={
-            <IconBox
-              w="56px"
-              h="56px"
-              bg="linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)"
-              icon={<Icon w="28px" h="28px" as={MdAddTask} color="white" />}
-            />
-          }
-          name="Total Tasks"
-          value="6"
-        />
+        <YourComponent />
         <MiniStatistics
           startContent={
             <IconBox
