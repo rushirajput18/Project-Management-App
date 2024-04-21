@@ -10,8 +10,17 @@ import {
   Thead,
   Tr,
   useColorModeValue,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Input,
 } from "@chakra-ui/react";
-import { Button, useDisclosure } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import React, { useMemo, useState } from "react";
 import {
   useGlobalFilter,
@@ -26,32 +35,36 @@ import Menu from "components/menu/MainMenu";
 
 // Assets
 import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
+
 export default function ColumnsTable(props) {
   const { columnsData, tableData } = props;
 
   const columns = useMemo(() => columnsData, [columnsData]);
-  //const data = useMemo(() => tableData, [tableData]);
-
   const [tasks, setTasks] = useState(tableData);
+
+  const [newTaskName, setNewTaskName] = useState("");
+  const [newTaskDeadline, setNewTaskDeadline] = useState("");
+  const [newTaskProgress, setNewTaskProgress] = useState(0);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const handleAddTask = () => {
-    setTasks((prevTasks) => {
-      const generateRandomTask = () => {
-        const randomNames = ["Task 1", "Task 2", "Task 3", "Task 4", "Task 5"];
-        const randomStatus = ["Approved", "Disable", "Error"];
-        const randomDeadline = ["2023-05-01", "2023-06-15", "2023-07-30", "2023-09-20", "2023-12-31"];
-        const randomProgress = Math.floor(Math.random() * 101);
-  
-        return {
-          name: randomNames[Math.floor(Math.random() * randomNames.length)],
-          status: randomStatus[Math.floor(Math.random() * randomStatus.length)],
-          deadline: randomDeadline[Math.floor(Math.random() * randomDeadline.length)],
-          progress: randomProgress,
-        };
+    if (newTaskName && newTaskDeadline && newTaskProgress >= 0 && newTaskProgress <= 100) {
+      const newTask = {
+        name: newTaskName,
+        status: "Pending", // Set status to "Pending" by default
+        deadline: newTaskDeadline,
+        progress: newTaskProgress,
       };
-  
-      const newTask = generateRandomTask();
-      return [...prevTasks, newTask];
-    });
+
+      setTasks((prevTasks) => [...prevTasks, newTask]);
+      setNewTaskName("");
+      setNewTaskDeadline("");
+      setNewTaskProgress(0);
+      onClose(); // Close the modal after adding the task
+    } else {
+      alert("Please enter valid task details.");
+    }
   };
 
   const data = useMemo(() => tasks, [tasks]);
@@ -80,19 +93,20 @@ export default function ColumnsTable(props) {
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
   return (
     <Card
-      direction='column'
-      w='100%'
-      px='0px'
-      overflowX={{ sm: "scroll", lg: "hidden" }}>
+      direction="column"
+      w="100%"
+      px="0px"
+      overflowX={{ sm: "scroll", lg: "hidden" }}
+    >
       <Flex px="25px" justify="space-between" mb="10px" align="center">
-  <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
-    Complex Table
-  </Text>
-  <Menu />
-  <Button colorScheme="brand" onClick={handleAddTask}>
-    Add Task
-  </Button>
-</Flex>
+        <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
+          Complex Table
+        </Text>
+        <Menu />
+        <Button colorScheme="brand" onClick={onOpen}>
+          Add Task
+        </Button>
+      </Flex>
       <Table {...getTableProps()} variant='simple' color='gray.500' mb='24px'>
         <Thead>
           {headerGroups.map((headerGroup, index) => (
@@ -196,6 +210,43 @@ export default function ColumnsTable(props) {
           })}
         </Tbody>
       </Table>
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Add Task</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Input
+              placeholder="Task Name"
+              value={newTaskName}
+              onChange={(e) => setNewTaskName(e.target.value)}
+              mb={4}
+            />
+            <Input
+              placeholder="Deadline"
+              value={newTaskDeadline}
+              onChange={(e) => setNewTaskDeadline(e.target.value)}
+              mb={4}
+            />
+            <Input
+              placeholder="Progress"
+              type="number"
+              value={newTaskProgress}
+              onChange={(e) => setNewTaskProgress(parseInt(e.target.value))}
+              min={0}
+              max={100}
+            />
+          </ModalBody>
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={handleAddTask}>
+              Add Task
+            </Button>
+            <Button variant="ghost" onClick={onClose}>
+              Cancel
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </Card>
   );
 }
