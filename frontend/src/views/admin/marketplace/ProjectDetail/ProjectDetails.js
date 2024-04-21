@@ -26,7 +26,7 @@ import TableTopCreators from "./TableTopCreators";
 import {
   // columnsDataCheck,
   columnsDataComplex,
-} from "views/admin/default/variables/columnsData";
+} from "./columnsData";
 
 import { useDisclosure, Text, Button } from "@chakra-ui/react";
 import Footer from "components/footer/FooterAdmin.js";

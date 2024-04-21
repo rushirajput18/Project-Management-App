@@ -112,23 +112,33 @@ exports.getEmployees = catchAsync(async (req, res) => {
 
 
 exports.getTasks = catchAsync(async (req, res) => {
-    const project_id = req.body.projectId;
+  const title = req.body.title;
 
-    if (!project_id) {
-      return res.status(400).json({
-        status: 'error',
-        message: 'Project ID is required.'
-      });
-    }
-
-    const tasks = await Task.find({ projectID: project_id });
-
-    res.status(200).json({
-      status: 'success',
-      data: {
-        tasks: [] 
-      }
+  if (!title) {
+    return res.status(400).json({
+      status: 'error',
+      message: 'Title is required.'
     });
+  }
+  // Find the project with the provided title
+  const project = await Project.findOne({ title: title });
+
+  if (!project) {
+    return res.status(404).json({
+      status: 'error',
+      message: 'Project not found.'
+    });
+  }
+
+  // Use the project ID to find tasks associated with that project
+  const tasks = await Task.find({ projectID: project._id });
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      tasks: tasks
+    }
+  });
 });
 
 

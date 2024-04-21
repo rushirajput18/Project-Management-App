@@ -44,23 +44,23 @@ export default function ColumnsTable(props) {
 
   const [newTaskName, setNewTaskName] = useState("");
   const [newTaskDeadline, setNewTaskDeadline] = useState("");
-  const [newTaskProgress, setNewTaskProgress] = useState(0);
+  //const [newTaskProgress, setNewTaskProgress] = useState(0);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleAddTask = () => {
-    if (newTaskName && newTaskDeadline && newTaskProgress >= 0 && newTaskProgress <= 100) {
+    if (newTaskName && newTaskDeadline ) {
       const newTask = {
         name: newTaskName,
         status: "Pending", // Set status to "Pending" by default
         deadline: newTaskDeadline,
-        progress: newTaskProgress,
+        //progress: newTaskProgress,
       };
 
       setTasks((prevTasks) => [...prevTasks, newTask]);
       setNewTaskName("");
       setNewTaskDeadline("");
-      setNewTaskProgress(0);
+      //setNewTaskProgress(0);
       onClose(); // Close the modal after adding the task
     } else {
       alert("Please enter valid task details.");
@@ -179,18 +179,18 @@ export default function ColumnsTable(props) {
                         {cell.value}
                       </Text>
                     );
-                  } else if (cell.column.Header === "PROGRESS") {
-                    data = (
-                      <Flex align='center'>
-                        <Progress
-                          variant='table'
-                          colorScheme='brandScheme'
-                          h='8px'
-                          w='108px'
-                          value={cell.value}
-                        />
-                      </Flex>
-                    );
+                  // } else if (cell.column.Header === "PROGRESS") {
+                  //   data = (
+                  //     <Flex align='center'>
+                  //       <Progress
+                  //         variant='table'
+                  //         colorScheme='brandScheme'
+                  //         h='8px'
+                  //         w='108px'
+                  //         value={cell.value}
+                  //       />
+                  //     </Flex>
+                  //   );
                   }
                   return (
                     <Td
@@ -228,14 +228,14 @@ export default function ColumnsTable(props) {
               onChange={(e) => setNewTaskDeadline(e.target.value)}
               mb={4}
             />
-            <Input
+            {/* <Input
               placeholder="Progress"
               type="number"
               value={newTaskProgress}
               onChange={(e) => setNewTaskProgress(parseInt(e.target.value))}
               min={0}
               max={100}
-            />
+            /> */}
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={handleAddTask}>

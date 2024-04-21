@@ -8,7 +8,7 @@ const ProjectSchema = mongoose.Schema({
     },
     description: {
         type: String,
-        required: true
+        
     },
     status: {
         type: String,
@@ -22,7 +22,6 @@ const ProjectSchema = mongoose.Schema({
     leader:{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Employee',
-        required: true
     },  
     StartDate: {
         type: Date,
