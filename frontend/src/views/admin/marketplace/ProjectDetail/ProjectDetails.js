@@ -29,6 +29,10 @@ import {
   // columnsDataCheck,
   columnsDataComplex,
 } from "./columnsData";
+import {
+  // columnsDataCheck,
+  columnsDataComplex2,
+} from "./columnsData2";
 
 import { useDisclosure, Text, Button } from "@chakra-ui/react";
 import Footer from "components/footer/FooterAdmin.js";
@@ -51,8 +55,9 @@ export default function ProjectDetails(props) {
   // Chakra Color Mode
   const { id } = useParams();
   const [projectData, setProjectData] = useState(null);
+  const [projectTask, setProjectTask] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log("as",id);
+  console.log("as", id);
   const { ...rest } = props;
   // states and functions
   const textColor = useColorModeValue("navy.700", "white");
@@ -72,25 +77,30 @@ export default function ProjectDetails(props) {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
 
-   useEffect(() => {
-     const fetchProjectData = async () => {
-       try {
-         setLoading(true);
-         // Make an HTTP request to fetch project data based on the project ID
-         const response = await axios.get(
-           `http://localhost:5000/project/getProject/${id}`
-         );
-         setProjectData(response.data.data.project);
-         console.log(response.data.data.project); // Assuming response.data contains project details
-         setLoading(false);
-       } catch (error) {
-         console.error("Error fetching project data:", error);
-         setLoading(false);
-       }
-     };
+  useEffect(() => {
+    const fetchProjectData = async () => {
+      try {
+        setLoading(true);
+        // Make an HTTP request to fetch project data based on the project ID
+        const response = await axios.get(
+          `http://localhost:5000/project/getProject/${id}`
+        );
+        setProjectData(response.data.data.project);
+        const response2 = await axios.get(
+          `http://localhost:5000/project/getTasks/${id}`
+        );
+        setProjectTask(response2.data.data.tasks);
+        //  console.log(response.data.data.project); // Assuming response.data contains project details
+        console.log("tasks",response2.data.data.tasks); // Assuming response.data contains project details
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching project data:", error);
+        setLoading(false);
+      }
+    };
 
-     fetchProjectData();
-   }, [id]);
+    fetchProjectData();
+  }, [id]);
   const getActiveRoute = (routes) => {
     let activeRoute = "Default Brand Text";
     for (let i = 0; i < routes.length; i++) {
@@ -196,9 +206,9 @@ export default function ProjectDetails(props) {
             <Navbar
               onOpen={onOpen}
               logoText={"Horizon UI Dashboard PRO"}
-              brandText="Project Details"
-              // secondary={getActiveNavbar(routes)}
-              // message={getActiveNavbarText(routes)}
+              brandText={getActiveRoute(routes)}
+              secondary={getActiveNavbar(routes)}
+              message={getActiveNavbarText(routes)}
               fixed={fixed}
               {...props}
             />
@@ -210,23 +220,7 @@ export default function ProjectDetails(props) {
             minH="100vh"
             pt="130px"
           ></Box>
-          <Box
-            mx="auto"
-            p={{ base: "20px", md: "30px" }}
-            pe="20px"
-            minH="100vh"
-            pt="130px"
-          >
-            <SimpleGrid
-              columns={{ base: 1, md: 1, xl: 1 }}
-              gap="20px"
-              width="100%"
-            >
-              <h1>Ashokkk</h1>
-              {/* Render the ProjectDetailsComponent */}
-              <ProjectComp projectData={projectData} loading={loading} />
-            </SimpleGrid>
-          </Box>
+          <Box></Box>
         </Box>
       </SidebarContext.Provider>
 
@@ -239,29 +233,31 @@ export default function ProjectDetails(props) {
             height="420px"
           >
             <ComplexTable
-              columnsData={columnsDataComplex}
-              tableData={projectData ? projectData.complexData : []}
+              columnsData={columnsDataComplex2}
+              tableData={projectTask}
+              // tableData={tableDataComplex}
             />
-          </SimpleGrid>
-
-          <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px">
-            <h1>Shekade</h1>
-            <ProjectComp projectData={projectData} loading={loading} />
-            <PieCard />
             <Box px="0px" mb="2px">
               {loading ? (
                 <p>Loading top creators data...</p>
               ) : (
                 <TableTopCreators
-                  tableData={projectData ? projectData.topCreatorsData : []}
-                  columnsData={
-                    projectData ? projectData.topCreatorsColumns : []
-                  }
+                projectData={projectData}
+                  columnsData={columnsDataComplex}
                 />
               )}
             </Box>
           </SimpleGrid>
+
+          <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px">
+           
+            <ProjectComp projectData={projectData} loading={loading} />
+            <PieCard/>
+            
+          </SimpleGrid>
+
         </Flex>
+ 
         {/* </Box> */}
         <Footer />
       </Box>

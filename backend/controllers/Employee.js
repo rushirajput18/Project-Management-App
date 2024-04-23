@@ -28,7 +28,8 @@ exports.getProject = catchAsync(async (req, res) => {
 
 exports.registerEmployee = async (req, res) => {
   try {
-    const { name, email, password, BestTime } = req.body;
+    const { name, email, password } = req.body;
+
     // Check if the email is already registered
     const existingEmployee = await Employee.findOne({ email });
     if (existingEmployee) {
@@ -36,12 +37,7 @@ exports.registerEmployee = async (req, res) => {
     }
 
     // Create a new employee document
-    const newEmployee = new Employee({
-      name,
-      email,
-      password,
-      BestTime,
-    });
+    const newEmployee = new Employee({ name, email, password });
     await newEmployee.save();
 
     res.status(201).json({ message: "Employee registered successfully" });

@@ -42,6 +42,7 @@ import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
 
 export default function ColumnsTable(props) {
   const { columnsData, tableData } = props;
+  console.log("ct",tableData);
   const [fetchedTask, setFetchedTask] = useState(null);
 
   // const fetchTask = async (taskId) => {
@@ -58,7 +59,11 @@ export default function ColumnsTable(props) {
     // fetchTask('taskIdHere');
   }, []);
   const columns = useMemo(() => columnsData, [columnsData]);
-  const [tasks, setTasks] = useState(tableData);
+  const [tasks, setTasks] = useState(tableData || []);
+
+  useEffect(() => {
+    setTasks(tableData || []); // Update tasks whenever tableData changes, ensuring it's not null
+  }, [tableData]);
 
   const [newTaskName, setNewTaskName] = useState("");
   const [newEmployees, setNewEmployees] = useState("");
@@ -123,6 +128,7 @@ const parsedDeadline = parseISO(newTaskDeadline);
       direction="column"
       w="100%"
       px="0px"
+      h="375px"
       overflowX={{ sm: "scroll", lg: "hidden" }}
     >
       <Flex px="25px" justify="space-between" mb="10px" align="center">
