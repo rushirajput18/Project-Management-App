@@ -29,6 +29,10 @@ import {
   // columnsDataCheck,
   columnsDataComplex,
 } from "./columnsData";
+import {
+  // columnsDataCheck,
+  columnsDataComplex2,
+} from "./columnsData2";
 
 import { useDisclosure, Text, Button } from "@chakra-ui/react";
 import Footer from "components/footer/FooterAdmin.js";
@@ -229,30 +233,31 @@ export default function ProjectDetails(props) {
             height="420px"
           >
             <ComplexTable
-              columnsData={columnsDataComplex}
+              columnsData={columnsDataComplex2}
               tableData={projectTask}
               // tableData={tableDataComplex}
             />
-          </SimpleGrid>
-
-          <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px">
-           
-            <ProjectComp projectData={projectData} loading={loading} />
-            <PieCard />
             <Box px="0px" mb="2px">
               {loading ? (
                 <p>Loading top creators data...</p>
               ) : (
                 <TableTopCreators
-                  tableData={projectData ? projectData.topCreatorsData : []}
-                  columnsData={
-                    projectData ? projectData.topCreatorsColumns : []
-                  }
+                projectData={projectData}
+                  columnsData={columnsDataComplex}
                 />
               )}
             </Box>
           </SimpleGrid>
+
+          <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px">
+           
+            <ProjectComp projectData={projectData} loading={loading} />
+            <PieCard/>
+            
+          </SimpleGrid>
+
         </Flex>
+ 
         {/* </Box> */}
         <Footer />
       </Box>

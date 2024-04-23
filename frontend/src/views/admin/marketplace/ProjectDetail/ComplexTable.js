@@ -128,6 +128,7 @@ const parsedDeadline = parseISO(newTaskDeadline);
       direction="column"
       w="100%"
       px="0px"
+      h="375px"
       overflowX={{ sm: "scroll", lg: "hidden" }}
     >
       <Flex px="25px" justify="space-between" mb="10px" align="center">
