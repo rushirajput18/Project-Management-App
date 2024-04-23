@@ -75,7 +75,7 @@ exports.deleteProject = catchAsync(async (req, res) => {
 
 exports.getProject = catchAsync(async (req, res) => {
     
-    const project_id = req.body.project_id || req.query.project_id;
+    const {project_id }= req.params;
 
     // Check if the project ID is provided
     if (!project_id) {
@@ -86,7 +86,10 @@ exports.getProject = catchAsync(async (req, res) => {
     }
 
     // Find the project by ID
-    const project = await Project.findById(project_id).populate('employees');
+   const project = await Project.findById(project_id).populate([
+     "employees",
+     "leader",
+   ]);
 
     // Check if project exists
     if (!project) {

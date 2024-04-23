@@ -19,6 +19,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
+import axios from "axios";
 import Card from "components/card/Card.js";
 import { useParams } from "react-router-dom";
 import { AddIcon } from "@chakra-ui/icons";
@@ -35,10 +36,11 @@ import Footer from "components/footer/FooterAdmin.js";
 import Navbar from "components/navbar/NavbarAdmin.js";
 import Sidebar from "components/sidebar/Sidebar.js";
 import { SidebarContext } from "contexts/SidebarContext";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
 import PieCard from "./PieCard";
+import ProjectComp from "./ProjectComp";
 // import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
 import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
@@ -48,6 +50,8 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function ProjectDetails(props) {
   // Chakra Color Mode
   const { id } = useParams();
+  const [projectData, setProjectData] = useState(null);
+  const [loading, setLoading] = useState(true);
   console.log("as",id);
   const { ...rest } = props;
   // states and functions
@@ -67,6 +71,26 @@ export default function ProjectDetails(props) {
   const getRoute = () => {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
+
+   useEffect(() => {
+     const fetchProjectData = async () => {
+       try {
+         setLoading(true);
+         // Make an HTTP request to fetch project data based on the project ID
+         const response = await axios.get(
+           `http://localhost:5000/project/getProject/${id}`
+         );
+         setProjectData(response.data.data.project);
+         console.log(response.data.data.project); // Assuming response.data contains project details
+         setLoading(false);
+       } catch (error) {
+         console.error("Error fetching project data:", error);
+         setLoading(false);
+       }
+     };
+
+     fetchProjectData();
+   }, [id]);
   const getActiveRoute = (routes) => {
     let activeRoute = "Default Brand Text";
     for (let i = 0; i < routes.length; i++) {
@@ -165,49 +189,48 @@ export default function ProjectDetails(props) {
 
   return (
     <Box display="flex" flexDirection="row">
-      <h1>id</h1>
-      <SidebarContext.Provider
-        value={{
-          toggleSidebar,
-          setToggleSidebar,
-        }}
-      >
-        <Sidebar routes={routes} display="none" {...rest} />
+      <SidebarContext.Provider value={{ toggleSidebar, setToggleSidebar }}>
+        <Sidebar routes={routes} display="none" {...props} />
         <Box flex="1">
           <Box>
-           <Navbar
-  onOpen={onOpen}
-  logoText={"Horizon UI Dashboard PRO"}
-  brandText={getActiveRoute(routes)}
-  secondary={getActiveNavbar(routes)}
-  message={getActiveNavbarText(routes)}
-  fixed={fixed}
-  {...rest}
-/>
+            <Navbar
+              onOpen={onOpen}
+              logoText={"Horizon UI Dashboard PRO"}
+              brandText="Project Details"
+              // secondary={getActiveNavbar(routes)}
+              // message={getActiveNavbarText(routes)}
+              fixed={fixed}
+              {...props}
+            />
           </Box>
-
           <Box
             mx="auto"
             p={{ base: "20px", md: "30px" }}
             pe="20px"
             minH="100vh"
-            pt="130px" // Adjust top padding to accommodate the Navbar
+            pt="130px"
+          ></Box>
+          <Box
+            mx="auto"
+            p={{ base: "20px", md: "30px" }}
+            pe="20px"
+            minH="100vh"
+            pt="130px"
           >
-            {getRoute() ? (
-              <Switch>
-                {getRoutes(routes)}
-                <Redirect from="/" to="/projectdetails" />
-              </Switch>
-            ) : null}
+            <SimpleGrid
+              columns={{ base: 1, md: 1, xl: 1 }}
+              gap="20px"
+              width="100%"
+            >
+              <h1>Ashokkk</h1>
+              {/* Render the ProjectDetailsComponent */}
+              <ProjectComp projectData={projectData} loading={loading} />
+            </SimpleGrid>
           </Box>
-
-          <Box></Box>
         </Box>
       </SidebarContext.Provider>
-      <Box pt={{ base: "130px", md: "80px", xl: "140px" }} ml="-50px">
-        
-       
 
+      <Box pt={{ base: "130px", md: "80px", xl: "140px" }} ml="-50px">
         <Flex justify="space-between" mx="-20px" mb="20px" gap="20px">
           <SimpleGrid
             columns={{ base: 1, md: 1, xl: 1 }}
@@ -217,19 +240,29 @@ export default function ProjectDetails(props) {
           >
             <ComplexTable
               columnsData={columnsDataComplex}
-              tableData={tableDataComplex}
+              tableData={projectData ? projectData.complexData : []}
             />
           </SimpleGrid>
+
           <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px">
+            <h1>Shekade</h1>
+            <ProjectComp projectData={projectData} loading={loading} />
             <PieCard />
-            <Card px="0px" mb="2px">
-              <TableTopCreators
-                tableData={tableDataTopCreators}
-                columnsData={tableColumnsTopCreators}
-              />
-            </Card>
+            <Box px="0px" mb="2px">
+              {loading ? (
+                <p>Loading top creators data...</p>
+              ) : (
+                <TableTopCreators
+                  tableData={projectData ? projectData.topCreatorsData : []}
+                  columnsData={
+                    projectData ? projectData.topCreatorsColumns : []
+                  }
+                />
+              )}
+            </Box>
           </SimpleGrid>
         </Flex>
+        {/* </Box> */}
         <Footer />
       </Box>
     </Box>
