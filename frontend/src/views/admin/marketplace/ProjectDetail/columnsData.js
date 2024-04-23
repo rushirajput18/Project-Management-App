@@ -2,7 +2,7 @@ import {format, parseISO} from "date-fns";
 export const columnsDataCheck = [
   {
     Header: "NAME",
-    accessor: "name",
+    accessor: "title",
   },
   {
     Header: "PROGRESS",
@@ -20,7 +20,7 @@ export const columnsDataCheck = [
 export const columnsDataComplex = [
   {
     Header: "NAME",
-    accessor: "name",
+    accessor: "title",
   },
   {
     Header: "STATUS",
@@ -28,7 +28,7 @@ export const columnsDataComplex = [
   },
   {
     Header: "DATE",
-    accessor: "date",
+    accessor: "dueDate",
   },
   // {
   //   Header: "PROGRESS",

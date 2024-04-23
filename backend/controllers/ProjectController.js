@@ -75,7 +75,7 @@ exports.deleteProject = catchAsync(async (req, res) => {
 
 exports.getProject = catchAsync(async (req, res) => {
     
-    const {project_id }= req.params;
+    const {project_id} = req.params;
 
     // Check if the project ID is provided
     if (!project_id) {
@@ -86,10 +86,7 @@ exports.getProject = catchAsync(async (req, res) => {
     }
 
     // Find the project by ID
-   const project = await Project.findById(project_id).populate([
-     "employees",
-     "leader",
-   ]);
+    const project = await Project.findById(project_id).populate(["employees","leader"]);
 
     // Check if project exists
     if (!project) {
@@ -137,16 +134,16 @@ exports.getEmployees = catchAsync(async (req, res) => {
 
 
 exports.getTasks = catchAsync(async (req, res) => {
-  const title = req.body.title;
+  const {id} = req.params;
 
-  if (!title) {
+  if (!id) {
     return res.status(400).json({
       status: 'error',
-      message: 'Title is required.'
+      message: 'id is required.'
     });
   }
   // Find the project with the provided title
-  const project = await Project.findOne({ title: title });
+  const project = await Project.findById(id);
 
   if (!project) {
     return res.status(404).json({

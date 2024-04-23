@@ -10,7 +10,7 @@ import {
   Text,
   useColorModeValue,
 } from "@chakra-ui/react";
-// Custom components
+// Custom components 
 import Card from "components/card/Card.js";
 // Assets
 import React, { useState } from "react";

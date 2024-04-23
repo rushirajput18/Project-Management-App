@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState,useEffect } from "react";
 import axios from "axios";
 // Chakra imports
 import {
+  
   Box,
   Flex,
   Grid,
@@ -37,7 +38,7 @@ export default function Marketplace() {
         setNFTCards(mappedNFTCards);
       } catch (error) {
         console.error("Error fetching projects:", error);
-      }
+      } 
     };
 
     fetchProjects();
@@ -48,9 +49,10 @@ export default function Marketplace() {
   // const textColorBrand = useColorModeValue("brand.500", "white");
   return (
     <Box pt={{ base: "180px", md: "80px", xl: "80px" }}>
+      
       {/* Main Fields */}
       <Grid
-        mb="20px"
+        mb='20px'
         gridTemplateColumns={{ xl: "repeat(3, 1fr)", "2xl": "1fr 0.46fr" }}
         gap={{ base: "20px", xl: "20px" }}
         display={{ base: "block", xl: "grid" }}
