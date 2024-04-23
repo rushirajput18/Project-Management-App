@@ -29,6 +29,10 @@ import {
   // columnsDataCheck,
   columnsDataComplex,
 } from "./columnsData";
+import {
+  // columnsDataCheck,
+  columnsDataComplex2,
+} from "./columnsData2";
 
 import { useDisclosure, Text, Button } from "@chakra-ui/react";
 import Footer from "components/footer/FooterAdmin.js";
@@ -229,7 +233,7 @@ export default function ProjectDetails(props) {
             height="420px"
           >
             <ComplexTable
-              columnsData={columnsDataComplex}
+              columnsData={columnsDataComplex2}
               tableData={projectTask}
               // tableData={tableDataComplex}
             />
