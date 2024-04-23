@@ -203,30 +203,7 @@ export default function ProjectDetails(props) {
               {...props}
             />
           </Box>
-          <Box
-            mx="auto"
-            p={{ base: "20px", md: "30px" }}
-            pe="20px"
-            minH="100vh"
-            pt="130px"
-          ></Box>
-          <Box
-            mx="auto"
-            p={{ base: "20px", md: "30px" }}
-            pe="20px"
-            minH="100vh"
-            pt="130px"
-          >
-            <SimpleGrid
-              columns={{ base: 1, md: 1, xl: 1 }}
-              gap="20px"
-              width="100%"
-            >
-              <h1>Ashokkk</h1>
-              {/* Render the ProjectDetailsComponent */}
-              <ProjectComp projectData={projectData} loading={loading} />
-            </SimpleGrid>
-          </Box>
+
         </Box>
       </SidebarContext.Provider>
 
@@ -245,7 +222,7 @@ export default function ProjectDetails(props) {
           </SimpleGrid>
 
           <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px">
-            <h1>Shekade</h1>
+           
             <ProjectComp projectData={projectData} loading={loading} />
             <PieCard />
             <Box px="0px" mb="2px">
