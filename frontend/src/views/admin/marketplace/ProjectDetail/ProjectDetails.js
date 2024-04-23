@@ -19,6 +19,7 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import React from "react";
+import axios from "axios";
 import Card from "components/card/Card.js";
 import { useParams } from "react-router-dom";
 import { AddIcon } from "@chakra-ui/icons";
@@ -35,7 +36,7 @@ import Footer from "components/footer/FooterAdmin.js";
 import Navbar from "components/navbar/NavbarAdmin.js";
 import Sidebar from "components/sidebar/Sidebar.js";
 import { SidebarContext } from "contexts/SidebarContext";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
 import PieCard from "./PieCard";
@@ -48,7 +49,10 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function ProjectDetails(props) {
   // Chakra Color Mode
   const { id } = useParams();
-  console.log("as",id);
+  const [projectData, setProjectData] = useState(null);
+  const [projectTask, setProjectTask] = useState(null);
+  const [loading, setLoading] = useState(true);
+  console.log("as", id);
   const { ...rest } = props;
   // states and functions
   const textColor = useColorModeValue("navy.700", "white");
@@ -67,6 +71,31 @@ export default function ProjectDetails(props) {
   const getRoute = () => {
     return window.location.pathname !== "/admin/full-screen-maps";
   };
+
+  useEffect(() => {
+    const fetchProjectData = async () => {
+      try {
+        setLoading(true);
+        // Make an HTTP request to fetch project data based on the project ID
+        const response = await axios.get(
+          `http://localhost:5000/project/getProject/${id}`
+        );
+        setProjectData(response.data.data.project);
+        const response2 = await axios.get(
+          `http://localhost:5000/project/getTasks/${id}`
+        );
+        setProjectTask(response2.data.data.tasks);
+        //  console.log(response.data.data.project); // Assuming response.data contains project details
+        console.log("tasks",response2.data.data.tasks); // Assuming response.data contains project details
+        setLoading(false);
+      } catch (error) {
+        console.error("Error fetching project data:", error);
+        setLoading(false);
+      }
+    };
+
+    fetchProjectData();
+  }, [id]);
   const getActiveRoute = (routes) => {
     let activeRoute = "Default Brand Text";
     for (let i = 0; i < routes.length; i++) {
@@ -165,49 +194,32 @@ export default function ProjectDetails(props) {
 
   return (
     <Box display="flex" flexDirection="row">
-      <h1>id</h1>
-      <SidebarContext.Provider
-        value={{
-          toggleSidebar,
-          setToggleSidebar,
-        }}
-      >
-        <Sidebar routes={routes} display="none" {...rest} />
+      <SidebarContext.Provider value={{ toggleSidebar, setToggleSidebar }}>
+        <Sidebar routes={routes} display="none" {...props} />
         <Box flex="1">
           <Box>
-           <Navbar
-  onOpen={onOpen}
-  logoText={"Horizon UI Dashboard PRO"}
-  brandText={getActiveRoute(routes)}
-  secondary={getActiveNavbar(routes)}
-  message={getActiveNavbarText(routes)}
-  fixed={fixed}
-  {...rest}
-/>
+            <Navbar
+              onOpen={onOpen}
+              logoText={"Horizon UI Dashboard PRO"}
+              brandText={getActiveRoute(routes)}
+              secondary={getActiveNavbar(routes)}
+              message={getActiveNavbarText(routes)}
+              fixed={fixed}
+              {...props}
+            />
           </Box>
-
           <Box
             mx="auto"
             p={{ base: "20px", md: "30px" }}
             pe="20px"
             minH="100vh"
-            pt="130px" // Adjust top padding to accommodate the Navbar
-          >
-            {getRoute() ? (
-              <Switch>
-                {getRoutes(routes)}
-                <Redirect from="/" to="/projectdetails" />
-              </Switch>
-            ) : null}
-          </Box>
-
+            pt="130px"
+          ></Box>
           <Box></Box>
         </Box>
       </SidebarContext.Provider>
-      <Box pt={{ base: "130px", md: "80px", xl: "140px" }} ml="-50px">
-        
-       
 
+      <Box pt={{ base: "130px", md: "80px", xl: "140px" }} ml="-50px">
         <Flex justify="space-between" mx="-20px" mb="20px" gap="20px">
           <SimpleGrid
             columns={{ base: 1, md: 1, xl: 1 }}
@@ -217,19 +229,25 @@ export default function ProjectDetails(props) {
           >
             <ComplexTable
               columnsData={columnsDataComplex}
-              tableData={tableDataComplex}
+              tableData={projectTask}
+              // tableData={tableDataComplex}
             />
           </SimpleGrid>
           <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px">
             <PieCard />
-            <Card px="0px" mb="2px">
+            <Box px="0px" mb="2px">
+              {/* {loading ? (
+              <p>Loading top creators data...</p>
+            ) : (
               <TableTopCreators
-                tableData={tableDataTopCreators}
-                columnsData={tableColumnsTopCreators}
+                tableData={projectData ? projectData.topCreatorsData : []}
+                columnsData={projectData ? projectData.topCreatorsColumns : []}
               />
-            </Card>
+            )} */}
+            </Box>
           </SimpleGrid>
         </Flex>
+        {/* </Box> */}
         <Footer />
       </Box>
     </Box>
