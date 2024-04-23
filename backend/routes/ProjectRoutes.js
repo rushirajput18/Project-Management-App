@@ -10,6 +10,6 @@ router.get('/getProject/:project_id',projectController.getProject);
 router.get('/getEmployees',projectController.getEmployees);
 router.get('/getTasks/:id',projectController.getTasks);
 router.get('/PieChart',projectController.getPieChartData);
-
+router.put("/UpdateStatus/:id/todo",projectController.UpdateStatus,);
 
 module.exports=router;
