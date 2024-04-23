@@ -26,6 +26,7 @@ export default function Marketplace() {
 
         // Map projects data to NFT card format
         const mappedNFTCards = projects.map((project) => ({
+          _id: project._id,
           name: project.title,
           description: project.description,
           author: project.leader ? project.leader.name : "Unknown", // Check if leader exists before accessing its name
@@ -77,6 +78,7 @@ export default function Marketplace() {
             >
               {nftCards.map((nftCard, index) => (
                 <NFT
+                  _id={nftCard._id}
                   key={index}
                   image={NFT1}
                   name={nftCard.name}
