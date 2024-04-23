@@ -27,22 +27,8 @@ export default function ProjectComp({ projectData, loading }) {
 
   return (
     <div
-      style={{ maxHeight: "420px", overflowY: "auto" }}
+      style={{ maxHeight: "420px", overflowY: "scroll" }}
       ref={cardRef}
-      onWheel={(e) => {
-        if (
-          e.deltaY > 0 &&
-          e.currentTarget.scrollHeight - e.currentTarget.scrollTop ===
-            e.currentTarget.clientHeight
-        ) {
-          e.currentTarget.scrollTop = e.currentTarget.scrollHeight;
-        } else if (
-          e.deltaY < 0 &&
-          e.currentTarget.scrollTop === 0
-        ) {
-          e.currentTarget.scrollTop = 0;
-        }
-      }}
     >
       <Box bg="white" boxShadow="md" borderRadius="md" p={6} maxW="600px" mx="auto">
         <Flex justifyContent="space-between" mb={4}>
@@ -68,14 +54,7 @@ export default function ProjectComp({ projectData, loading }) {
             <Text fontWeight="bold">Leader:</Text>
             <Text>{projectData.leader.name}</Text>
           </Box>
-          <Box>
-            <Text fontWeight="bold">Employees:</Text>
-            <Stack spacing={1}>
-              {projectData.employees.map((employee) => (
-                <Text key={employee._id}>{employee.name}</Text>
-              ))}
-            </Stack>
-          </Box>
+         
         </Stack>
         <Divider my={4} />
         {/* Add any additional content or actions here */}

@@ -219,26 +219,27 @@ export default function ProjectDetails(props) {
               columnsData={columnsDataComplex}
               tableData={projectData ? projectData.complexData : []}
             />
-          </SimpleGrid>
-
-          <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px">
-           
-            <ProjectComp projectData={projectData} loading={loading} />
-            <PieCard />
             <Box px="0px" mb="2px">
               {loading ? (
                 <p>Loading top creators data...</p>
               ) : (
                 <TableTopCreators
-                  tableData={projectData ? projectData.topCreatorsData : []}
-                  columnsData={
-                    projectData ? projectData.topCreatorsColumns : []
-                  }
+                projectData={projectData}
+                  columnsData={columnsDataComplex}
                 />
               )}
             </Box>
           </SimpleGrid>
+
+          <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px">
+           
+            <ProjectComp projectData={projectData} loading={loading} />
+            <PieCard/>
+            
+          </SimpleGrid>
+
         </Flex>
+ 
         {/* </Box> */}
         <Footer />
       </Box>

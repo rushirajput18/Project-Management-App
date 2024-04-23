@@ -279,9 +279,11 @@ export default function UserReports() {
         <TotalSpent />
         <WeeklyRevenue />
       </SimpleGrid> */}
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
+      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} height="420px" gap="20px">
         {/* <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} /> */}
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px">
+        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px"
+            width="74vh"
+            height="420px">
           {/* <DailyTraffic /> */}
           <PieCard />
           <MiniCalendar minW="483px" mx="260px" selectRange={false} />

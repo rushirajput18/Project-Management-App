@@ -24,7 +24,7 @@ export const columnsDataComplex = [
   },
   {
     Header: "STATUS",
-    accessor: "status",
+    accessor: "email",
   },
   {
     Header: "DATE",
