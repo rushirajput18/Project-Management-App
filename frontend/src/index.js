@@ -16,7 +16,7 @@ ReactDOM.render(
 			<ThemeEditorProvider>
 				<HashRouter>
 					<Switch>
-						<Route path={`/projectdetails`} component={ProjectDetails} />
+						<Route path={`/projectdetails/:id`} component={ProjectDetails} />
 						<Route path={`/auth`} component={AuthLayout} />
 						<Route path={`/admin`} component={AdminLayout} />
 						{/* <Route path={`/rtl`} component={RtlLayout} /> */}

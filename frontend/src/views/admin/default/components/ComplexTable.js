@@ -1,3 +1,4 @@
+import React, { useMemo, useState } from "react";
 import {
   Flex,
   Table,
@@ -21,19 +22,17 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Button
 } from "@chakra-ui/react";
-import { Button } from "@chakra-ui/react";
-import React, { useMemo, useState, useEffect } from "react";
-import { isValid, parseISO } from "date-fns";
 import {
   useGlobalFilter,
   usePagination,
   useSortBy,
   useTable,
 } from "react-table";
-import Axios from 'axios';
 
 // Custom components
+import { isValid, parseISO } from "date-fns";
 import Card from "components/card/Card";
 import Menu from "components/menu/MainMenu";
 
@@ -42,49 +41,28 @@ import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
 
 export default function ColumnsTable(props) {
   const { columnsData, tableData } = props;
-  const [fetchedTask, setFetchedTask] = useState(null);
+  const [pageIndex, setPageIndex] = useState(0); // Track current page index
 
-  const fetchTask = async (taskId) => {
-    try {
-      const response = await Axios.get(`http://localhost:5000/task/getTask/${taskId}`);
-      setFetchedTask(response.data.data.task);
-    } catch (error) {
-      console.error('Error fetching task:', error);
-    }
-  };
-
-  useEffect(() => {
-    // Replace 'taskIdHere' with the actual task ID you want to fetch
-    fetchTask('taskIdHere');
-  }, []);
   const columns = useMemo(() => columnsData, [columnsData]);
-  const [tasks, setTasks] = useState(tableData);
-
-  const [newTaskName, setNewTaskName] = useState("");
-  const [newEmployees, setNewEmployees] = useState("");
-  const [newTaskDeadline, setNewTaskDeadline] = useState("");
-  const [newTaskStatus, setNewTaskStatus] = useState("In Progress");
-
+  const data = useMemo(() => tableData, [tableData]);
+  const [task,setTasks]=useState(tableData);
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const handleAddTask = () => {
     if (newTaskName && newTaskDeadline) {
       const isoDateString = newTaskDeadline;
-                    const isoDate = new Date(isoDateString);
+      const isoDate = new Date(isoDateString);
 
-                    // Formatting the date
-                    const options = {
-                      year: "numeric",
-                      month: "long", // or 'short', 'numeric', etc. based on your preference
-                      day: "numeric",
-                    };
+      // Formatting the date
+      const options = {
+        year: "numeric",
+        month: "long", // or 'short', 'numeric', etc. based on your preference
+        day: "numeric",
+      };
 
-                    // Convert the ISO date to a formatted string
-                    const formattedDate = isoDate.toLocaleDateString(
-                      "en-US",
-                      options
-                    );
-  
+      // Convert the ISO date to a formatted string
+      const formattedDate = isoDate.toLocaleDateString("en-US", options);
+
       if (isValid(formattedDate)) {
         const newTask = {
           name: newTaskName,
@@ -93,7 +71,7 @@ export default function ColumnsTable(props) {
           progress: "0",
           employee: newEmployees,
         };
-  
+
         setTasks((prevTasks) => [...prevTasks, newTask]);
         setNewTaskName("");
         setNewTaskDeadline("");
@@ -101,18 +79,25 @@ export default function ColumnsTable(props) {
         setNewEmployees("");
         onClose();
       } else {
-        alert("Invalid date format. Please enter the date in the correct format.");
+        alert(
+          "Invalid date format. Please enter the date in the correct format."
+        );
       }
     } else {
       alert("Please enter valid task details.");
     }
   };
-  const data = useMemo(() => tasks, [tasks]);
+ 
+  const [newTaskName, setNewTaskName] = useState("");
+  const [newEmployees, setNewEmployees] = useState("");
+  const [newTaskDeadline, setNewTaskDeadline] = useState("");
+  const [newTaskStatus, setNewTaskStatus] = useState("In Progress");
 
   const tableInstance = useTable(
     {
       columns,
       data,
+      initialState: { pageIndex, pageSize: 10 }, // Set initial page index and size
     },
     useGlobalFilter,
     useSortBy,
@@ -125,12 +110,17 @@ export default function ColumnsTable(props) {
     headerGroups,
     page,
     prepareRow,
-    initialState,
+    canPreviousPage,
+    canNextPage,
+    nextPage,
+    previousPage,
+    pageCount,
+    gotoPage,
   } = tableInstance;
-  initialState.pageSize = 5;
 
   const textColor = useColorModeValue("secondaryGray.900", "white");
   const borderColor = useColorModeValue("gray.200", "whiteAlpha.100");
+
   return (
     <Card
       direction="column"
@@ -139,29 +129,36 @@ export default function ColumnsTable(props) {
       overflowX={{ sm: "scroll", lg: "hidden" }}
     >
       <Flex px="25px" justify="space-between" mb="10px" align="center">
-        <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
-          Complex Table
+        <Text
+          color={textColor}
+          fontSize="22px"
+          fontWeight="700"
+          lineHeight="100%"
+        >
+          Project Table
         </Text>
         <Menu />
         <Button colorScheme="brand" onClick={onOpen}>
           Add Task
         </Button>
       </Flex>
-      <Table {...getTableProps()} variant='simple' color='gray.500' mb='24px'>
+      <Table {...getTableProps()} variant="simple" color="gray.500" mb="24px">
         <Thead>
           {headerGroups.map((headerGroup, index) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
               {headerGroup.headers.map((column, index) => (
                 <Th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  pe='10px'
+                  pe="10px"
                   key={index}
-                  borderColor={borderColor}>
+                  borderColor={borderColor}
+                >
                   <Flex
-                    justify='space-between'
-                    align='center'
+                    justify="space-between"
+                    align="center"
                     fontSize={{ sm: "10px", lg: "12px" }}
-                    color='gray.400'>
+                    color="gray.400"
+                  >
                     {column.render("Header")}
                   </Flex>
                 </Th>
@@ -178,38 +175,38 @@ export default function ColumnsTable(props) {
                   let data = "";
                   if (cell.column.Header === "NAME") {
                     data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
+                      <Text color={textColor} fontSize="sm" fontWeight="700">
+                        {cell.row.original.title}
                       </Text>
                     );
                   } else if (cell.column.Header === "STATUS") {
                     data = (
-                      <Flex align='center'>
+                      <Flex align="center">
                         <Icon
-                          w='24px'
-                          h='24px'
-                          me='5px'
+                          w="24px"
+                          h="24px"
+                          me="5px"
                           color={
-                            cell.value === "Approved"
-                              ? "green.500"
-                              : cell.value === "Disable"
-                              ? "red.500"
-                              : cell.value === "Error"
+                            cell.value === "Assigned"
                               ? "orange.500"
+                              : cell.value === "In Progress"
+                              ? "red.500"
+                              : cell.value === "Completed"
+                              ? "green.500"
                               : null
                           }
                           as={
-                            cell.value === "Approved"
+                            cell.value === "Assigned"
                               ? MdCheckCircle
-                              : cell.value === "Disable"
+                              : cell.value === "In Progress"
                               ? MdCancel
-                              : cell.value === "Error"
-                              ? MdOutlineError
+                              : cell.value === "Completed"
+                              ? MdCheckCircle
                               : null
                           }
                         />
-                        <Text color={textColor} fontSize='sm' fontWeight='700'>
-                          {cell.value}
+                        <Text color={textColor} fontSize="sm" fontWeight="700">
+                          {cell.row.original.status}
                         </Text>
                       </Flex>
                     );
@@ -239,13 +236,13 @@ export default function ColumnsTable(props) {
                     );
                   } else if (cell.column.Header === "PROGRESS") {
                     data = (
-                      <Flex align='center'>
+                      <Flex align="center">
                         <Progress
-                          variant='table'
-                          colorScheme='brandScheme'
-                          h='8px'
-                          w='108px'
-                          value={cell.value}
+                          variant="table"
+                          colorScheme="brandScheme"
+                          h="8px"
+                          w="108px"
+                          value={cell.row.original.donePercentage}
                         />
                       </Flex>
                     );
@@ -255,10 +252,11 @@ export default function ColumnsTable(props) {
                       {...cell.getCellProps()}
                       key={index}
                       fontSize={{ sm: "14px" }}
-                      maxH='30px !important'
-                      py='8px'
+                      maxH="30px !important"
+                      py="8px"
                       minW={{ sm: "150px", md: "200px", lg: "auto" }}
-                      borderColor='transparent'>
+                      borderColor="transparent"
+                    >
                       {data}
                     </Td>
                   );
@@ -300,8 +298,8 @@ export default function ColumnsTable(props) {
 
             <FormControl mb={4}>
               <FormLabel>Employee ID</FormLabel>
-              
-<Input
+
+              <Input
                 value={newEmployees}
                 onChange={(e) => setNewEmployees(e.target.value)}
               />
@@ -317,6 +315,26 @@ export default function ColumnsTable(props) {
           </ModalFooter>
         </ModalContent>
       </Modal>
+      {/* Pagination controls */}
+      <Flex justify="center" mt="20px">
+        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+          {"First__"}
+        </button>{" "}
+        <button onClick={previousPage} disabled={!canPreviousPage}>
+          {"Previous__"}
+        </button>{" "}
+        {Array.from({ length: pageCount }, (_, i) => (
+          <button key={i} onClick={() => gotoPage(i)}>
+            {i + 1}
+          </button>
+        ))}
+        <button onClick={nextPage} disabled={!canNextPage}>
+          {"__Next__"}
+        </button>{" "}
+        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
+          {"Last"}
+        </button>{" "}
+      </Flex>
     </Card>
   );
 }

@@ -20,6 +20,7 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import Card from "components/card/Card.js";
+import { useParams } from "react-router-dom";
 import { AddIcon } from "@chakra-ui/icons";
 import ComplexTable from "./ComplexTable";
 import TableTopCreators from "./TableTopCreators";
@@ -46,6 +47,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 export default function ProjectDetails(props) {
   // Chakra Color Mode
+  const { id } = useParams();
+  console.log("as",id);
   const { ...rest } = props;
   // states and functions
   const textColor = useColorModeValue("navy.700", "white");
@@ -162,6 +165,7 @@ export default function ProjectDetails(props) {
 
   return (
     <Box display="flex" flexDirection="row">
+      <h1>id</h1>
       <SidebarContext.Provider
         value={{
           toggleSidebar,

@@ -44,18 +44,18 @@ export default function ColumnsTable(props) {
   const { columnsData, tableData } = props;
   const [fetchedTask, setFetchedTask] = useState(null);
 
-  const fetchTask = async (taskId) => {
-    try {
-      const response = await Axios.get(`http://localhost:5000/task/getTask/${taskId}`);
-      setFetchedTask(response.data.data.task);
-    } catch (error) {
-      console.error('Error fetching task:', error);
-    }
-  };
+  // const fetchTask = async (taskId) => {
+  //   try {
+  //     const response = await Axios.get(`http://localhost:5000/task/getTask/${taskId}`);
+  //     setFetchedTask(response.data.data.task);
+  //   } catch (error) {
+  //     console.error('Error fetching task:', error);
+  //   }
+  // };
 
   useEffect(() => {
     // Replace 'taskIdHere' with the actual task ID you want to fetch
-    fetchTask('taskIdHere');
+    // fetchTask('taskIdHere');
   }, []);
   const columns = useMemo(() => columnsData, [columnsData]);
   const [tasks, setTasks] = useState(tableData);
@@ -127,7 +127,7 @@ const parsedDeadline = parseISO(newTaskDeadline);
     >
       <Flex px="25px" justify="space-between" mb="10px" align="center">
         <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
-          Complex Table
+          Project 
         </Text>
         <Menu />
         <Button colorScheme="brand" onClick={onOpen}>
