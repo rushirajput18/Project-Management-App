@@ -4,6 +4,35 @@ const Task=require('./../models/TaskSchema');
 const catchAsync = require('./../utils/catchAsync');
 
 
+exports.UpdateStatus = catchAsync(async (req, res) => {
+      const projectId = req.params.id;
+      const stages = req.body;
+
+      const updates = [];
+
+      for (const stageName in stages) {
+        const items = stages[stageName].items;
+        const stage = stageName;
+
+        for (const item of items) {
+          const taskId = item._id;
+          const order = items.indexOf(item);
+
+          updates.push({
+            filter: { _id: projectId, "task._id": taskId },
+            update: { $set: { "task.$.order": order, "task.$.stage": stage } },
+          });
+        }
+      }
+
+      const updateOperations = updates.map((update) => {
+        return Task.updateOne(update.filter, update.update);
+      });
+
+      await Promise.all(updateOperations);
+
+      res.json({ message: "Todo list updated successfully" });
+})
 
 exports.createProject = catchAsync(async(req, res) => {
   try {
@@ -137,16 +166,16 @@ exports.getEmployees = catchAsync(async (req, res) => {
 
 
 exports.getTasks = catchAsync(async (req, res) => {
-  const title = req.body.title;
+  const {id} = req.params;
 
-  if (!title) {
+  if (!id) {
     return res.status(400).json({
       status: 'error',
-      message: 'Title is required.'
+      message: 'id is required.'
     });
   }
   // Find the project with the provided title
-  const project = await Project.findOne({ title: title });
+  const project = await Project.findById(id);
 
   if (!project) {
     return res.status(404).json({
@@ -165,6 +194,7 @@ exports.getTasks = catchAsync(async (req, res) => {
     }
   });
 });
+
 
 
 exports.getPieChartData= catchAsync(async (req, res) => {

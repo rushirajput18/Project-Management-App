@@ -1,5 +1,6 @@
 const Employee = require("../models/EmployeeSchema");
 const Task = require("../models/TaskSchema");
+const Project = require("../models/ProjectSchema");
 const catchAsync = require('./../utils/catchAsync');
 
 
@@ -16,6 +17,13 @@ exports.getTopEmployees = catchAsync(async (req, res) => {
     }));
 
     res.json(transformedEmployees);
+});
+
+exports.getProject = catchAsync(async (req, res) => {
+  const { eid } = req.params;
+  const projects = await Project.find({ employees: eid });
+
+  res.json(projects);
 });
 
 exports.registerEmployee = async (req, res) => {
