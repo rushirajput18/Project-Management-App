@@ -26,11 +26,15 @@ export default function ProjectComp({ projectData, loading }) {
   }
 
   return (
-    <div
-      style={{ maxHeight: "420px", overflowY: "scroll" }}
-      ref={cardRef}
-    >
-      <Box bg="white" boxShadow="md" borderRadius="md" p={6} maxW="600px" mx="auto">
+    <div style={{ maxHeight: "420px", overflowY: "scroll" }} ref={cardRef}>
+      <Box
+        bg="white"
+        boxShadow="md"
+        borderRadius="md"
+        p={6}
+        maxW="600px"
+        mx="auto"
+      >
         <Flex justifyContent="space-between" mb={4}>
           <Text fontSize="2xl" fontWeight="bold">
             {projectData.title}
@@ -40,11 +44,23 @@ export default function ProjectComp({ projectData, loading }) {
         <Stack spacing={4}>
           <Box>
             <Text fontWeight="bold">Start Date:</Text>
-            <Text>{projectData.StartDate}</Text>
+            <Text>
+              {new Date(projectData.StartDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long", // or 'short', 'numeric', etc. based on your preference
+                day: "numeric",
+              })}
+            </Text>
           </Box>
           <Box>
             <Text fontWeight="bold">End Date:</Text>
-            <Text>{projectData.EndDate}</Text>
+            <Text>
+              {new Date(projectData.EndDate).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long", // or 'short', 'numeric', etc. based on your preference
+                day: "numeric",
+              })}
+            </Text>
           </Box>
           <Box>
             <Text fontWeight="bold">Description:</Text>
@@ -54,7 +70,6 @@ export default function ProjectComp({ projectData, loading }) {
             <Text fontWeight="bold">Leader:</Text>
             <Text>{projectData.leader.name}</Text>
           </Box>
-         
         </Stack>
         <Divider my={4} />
         {/* Add any additional content or actions here */}
