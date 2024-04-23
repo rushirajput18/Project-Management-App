@@ -36,10 +36,11 @@ import Footer from "components/footer/FooterAdmin.js";
 import Navbar from "components/navbar/NavbarAdmin.js";
 import Sidebar from "components/sidebar/Sidebar.js";
 import { SidebarContext } from "contexts/SidebarContext";
-import { useState, useEffect } from "react";
+import { useState,useEffect } from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import routes from "routes.js";
 import PieCard from "./PieCard";
+import ProjectComp from "./ProjectComp";
 // import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
 import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
 import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
@@ -233,17 +234,22 @@ export default function ProjectDetails(props) {
               // tableData={tableDataComplex}
             />
           </SimpleGrid>
+
           <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px">
+           
+            <ProjectComp projectData={projectData} loading={loading} />
             <PieCard />
             <Box px="0px" mb="2px">
-              {/* {loading ? (
-              <p>Loading top creators data...</p>
-            ) : (
-              <TableTopCreators
-                tableData={projectData ? projectData.topCreatorsData : []}
-                columnsData={projectData ? projectData.topCreatorsColumns : []}
-              />
-            )} */}
+              {loading ? (
+                <p>Loading top creators data...</p>
+              ) : (
+                <TableTopCreators
+                  tableData={projectData ? projectData.topCreatorsData : []}
+                  columnsData={
+                    projectData ? projectData.topCreatorsColumns : []
+                  }
+                />
+              )}
             </Box>
           </SimpleGrid>
         </Flex>
