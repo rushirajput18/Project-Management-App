@@ -96,12 +96,25 @@ exports.updateTaskBytitle = catchAsync(async (req, res) => {
     res.status(500).json({ message: 'Something went wrong' });
 }
 
-  
-
-  
-
- 
 });
+exports.updateTaskById = async (req, res) => {
+  try {
+      const {id} = req.params;
+      const {status}  = req.body ;
+
+      const task = await Task.findByIdAndUpdate(id, { status:status }, { new: true });
+
+      if (!task) {
+        console.log(id);
+        console.log({status:status});
+          return res.status(404).json({ message: 'Task not found' });
+      }
+
+      res.json({ message: 'Task status updated successfully', task });
+  } catch (error) {
+      res.status(500).json({ message: 'Something went wrong' });
+  }
+};
 
 // Delete task by ID
 exports.deleteTaskById = catchAsync(async (req, res) => {
