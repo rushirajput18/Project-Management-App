@@ -206,13 +206,33 @@ const parsedDeadline = parseISO(newTaskDeadline);
                         </Text>
                       </Flex>
                     );
-                  } else if (cell.column.Header === "DATE") {
+                  }
+                  else if (cell.column.Header === "DATE") {
+                    // Assuming cell.row.original.StartDate holds the ISO 8601 formatted date string
+                    const isoDateString = cell.value;
+                    const isoDate = new Date(isoDateString);
+
+                    // Formatting the date
+                    const options = {
+                      year: "numeric",
+                      month: "long", // or 'short', 'numeric', etc. based on your preference
+                      day: "numeric",
+                    };
+
+                    // Convert the ISO date to a formatted string
+                    const formattedDate = isoDate.toLocaleDateString(
+                      "en-US",
+                      options
+                    );
+
+                    // Render the formatted date
                     data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
-                        {cell.value}
+                      <Text color={textColor} fontSize="sm" fontWeight="700">
+                        {formattedDate}
                       </Text>
                     );
-                  } else if (cell.column.Header === "PROGRESS") {
+                  } 
+                else if (cell.column.Header === "PROGRESS") {
                     data = (
                       <Flex align='center'>
                         <Progress

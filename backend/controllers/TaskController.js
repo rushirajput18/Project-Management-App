@@ -68,29 +68,53 @@ exports.createTask = catchAsync(async (req, res) => {
 });
 
 // Update task by ID
-exports.updateTaskBytitle =catchAsync(async (req, res) => {
-  const { title } = req.body;
-  const task = await Task.findOne({ title: title });
+exports.updateTaskBytitle = catchAsync(async (req, res) => {
+  try {
+    const taskId = req.params.id;
+    const { status } = req.body;
 
-  if (!task) {
-    return res.status(404).json({ message: "Task not found" });
-  }
+    const task = await Task.findByIdAndUpdate(taskId, { status }, { new: true });
 
-  task.CompletedAt = new Date();
+    if (!task) {
+        return res.status(404).json({ message: 'Task not found' });
+    }
+    task.CompletedAt = new Date();
+    const updatedTask = await task.save();
+    res.json({ message: 'Task status updated successfully', task });
+    console.log("sjfds")
+    const employee = await Employee.findOne({ _id: task.employeeID }); // Await the execution of the query
+    if (!employee) {
+      return res.status(404).json({ message: "Employee not found" });
+    }
+  
+    const btime = (updatedTask.dueDate- updatedTask.CompletedAt ) / (updatedTask.dueDate - updatedTask.createdAt);
+  
+    employee.BestTime = employee.BestTime + btime;
+    const updatedEmployee = await employee.save();
+    res.json({ message: "Task updated successfully", task: updatedTask });
+} catch (error) {
+    res.status(500).json({ message: 'Something went wrong' });
+}
 
-  const updatedTask = await task.save();
-
-  const employee = await Employee.findOne({ _id: task.employeeID }); // Await the execution of the query
-  if (!employee) {
-    return res.status(404).json({ message: "Employee not found" });
-  }
-
-  const btime = (updatedTask.dueDate- updatedTask.CompletedAt ) / (updatedTask.dueDate - updatedTask.createdAt);
-
-  employee.BestTime = employee.BestTime + btime;
-  const updatedEmployee = await employee.save();
-  res.json({ message: "Task updated successfully", task: updatedTask });
 });
+exports.updateTaskById = async (req, res) => {
+  try {
+      const {id} = req.params;
+      const {status}  = req.body ;
+
+      const task = await Task.findByIdAndUpdate(id, { status:status }, { new: true });
+
+      if (!task) {
+        console.log(id);
+        console.log({status:status});
+          return res.status(404).json({ message: 'Task not found' });
+      }
+
+      res.json({ message: 'Task status updated successfully', task });
+  } catch (error) {
+      res.status(500).json({ message: 'Something went wrong' });
+  }
+};
 
 // Delete task by ID
 exports.deleteTaskById = catchAsync(async (req, res) => {
