@@ -9,6 +9,7 @@ router.patch('/updateTaskStatus/:id',TaskController.updateTaskById);
 router.get('/getTaskEmployee',TaskController.getEmployeeByTaskId);
 router.get('/countTask',TaskController.countTask);
 router.get('/getTaskByStatus',TaskController.getTaskByStatus)
+// router.get('/getTotalTasks',TaskController.getTotalTasks)
 
 
 module.exports=router;

@@ -4,16 +4,6 @@ const catchAsync = require('./../utils/catchAsync');
 
 const Task = require('../models/TaskSchema');
 
-// Get all tasks
-// exports.getAllTasks = async (req, res) => {
-//   try {
-//     const tasks = await Task.find();
-//     res.json(tasks);
-//   } catch (err) {
-//     console.error(err);
-//     res.status(500).json({ message: "Internal server error" });
-//   }
-// };
 
 // Get task by ID
 exports.getTaskByStatus = catchAsync(async(req,res)=>{
@@ -23,7 +13,7 @@ exports.getTaskByStatus = catchAsync(async(req,res)=>{
 })
 
 exports.countTask = catchAsync(async (req, res) => {
-  const count = await Task.countDocuments({ status: { $ne: 'Done' } });
+  const count = await Task.countDocuments({});
 
   res.status(200).json({ taskCount:count });
 })

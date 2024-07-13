@@ -41,9 +41,9 @@ import {
   columnsDataCheck,
   columnsDataComplex,
 } from "views/admin/default/variables/columnsData";
-import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
-import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
-import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
+// import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
+// import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
+// import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/default/variables/tableColumnsTopCreators";
 
 export default function UserReports() {
@@ -88,6 +88,7 @@ export default function UserReports() {
     return (
       // Your JSX code that uses taskCount
       <MiniStatistics
+    
         startContent={
           <IconBox
             w="56px"
@@ -209,26 +210,7 @@ export default function UserReports() {
         gap="20px"
         mb="20px"
       >
-        <MiniStatistics
-          endContent={
-            <Flex me="-16px" mt="10px">
-              <FormLabel htmlFor="balance"></FormLabel>
-              <Select
-                fontSize="sm"
-                variant="subtle"
-                width="unset"
-                fontWeight="700"
-              >
-                <option value="Overrall">Overall</option>
-                <option value="project-1">Project-1</option>
-                <option value="project-2">Project-2</option>
-                <option value="project-3">Project-3</option>
-              </Select>
-            </Flex>
-          }
-          name="Total Cost"
-          value="$1,000"
-        />
+       
         <YourComponent />
         <MiniStatistics
           startContent={
@@ -246,19 +228,7 @@ export default function UserReports() {
         />
       </SimpleGrid>
 
-      <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} height="420px" gap="20px">
-        {/* <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} /> */}
-        <SimpleGrid
-          columns={{ base: 1, md: 2, xl: 2 }}
-          gap="20px"
-          width="74vh"
-          height="420px"
-        >
-          {/* <DailyTraffic /> */}
-          <PieCard />
-          <MiniCalendar minW="483px" mx="260px" selectRange={false} />
-        </SimpleGrid>
-      </SimpleGrid>
+      
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} gap="20px" mb="20px">
         <ComplexTable
           columnsData={columnsDataComplex}
