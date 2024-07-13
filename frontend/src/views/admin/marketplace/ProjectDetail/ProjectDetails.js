@@ -54,6 +54,8 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function ProjectDetails(props) {
   // Chakra Color Mode
   const { id } = useParams();
+  const [numTasks, setNumTasks] = useState(0);
+  const [numDoneTasks, setNumDoneTasks] = useState(0);
   const [projectData, setProjectData] = useState(null);
   const [projectTask, setProjectTask] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -86,12 +88,24 @@ export default function ProjectDetails(props) {
           `http://localhost:5000/project/getProject/${id}`
         );
         setProjectData(response.data.data.project);
+        //console.log("Id im sending of project: ", id);
         const response2 = await axios.get(
           `http://localhost:5000/project/getTasks/${id}`
         );
-        setProjectTask(response2.data.data.tasks);
-        //  console.log(response.data.data.project); // Assuming response.data contains project details
-        console.log("tasks",response2.data.data.tasks); // Assuming response.data contains project details
+        const tasks = response2.data.data.tasks;
+
+       // console.log("mine: ", response2.data.data.tasks);
+        setProjectTask(tasks);
+        setNumTasks(tasks.length);
+        setNumDoneTasks(tasks.filter(task => task.status === 'Done').length);
+        console.log("total tasks",numTasks);
+        //alert("total tasks"+ numTasks);
+        console.log("done tasks",numDoneTasks);
+        if (numTasks != 0){
+          //const percentage = calculatePercentage(tasks);
+          console.log("Percentage completed", (numDoneTasks / numTasks) * 100);
+        }
+    
         setLoading(false);
       } catch (error) {
         console.error("Error fetching project data:", error);
@@ -252,7 +266,7 @@ export default function ProjectDetails(props) {
           <SimpleGrid columns={{ base: 1, md: 1, xl: 1 }} gap="10px">
            
             <ProjectComp projectData={projectData} loading={loading} />
-            <PieCard/>
+            <PieCard tasksDone={numDoneTasks} notDone={numTasks-numDoneTasks}/>
             
           </SimpleGrid>
 

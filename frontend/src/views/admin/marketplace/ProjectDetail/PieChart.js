@@ -17,7 +17,7 @@ class PieChart extends React.Component {
       chartOptions: this.props.chartOptions,
     });
   }
-
+  
   render() {
     return (
       <ReactApexChart
