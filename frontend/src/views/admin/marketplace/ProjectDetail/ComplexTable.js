@@ -21,6 +21,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select
 } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import React, { useMemo, useState, useEffect } from "react";
@@ -44,6 +45,7 @@ export default function ColumnsTable(props) {
   const { columnsData, tableData } = props;
   console.log("ct",tableData);
   const [fetchedTask, setFetchedTask] = useState(null);
+  const [employees, setEmployees] = useState([]);
 
   // const fetchTask = async (taskId) => {
   //   try {
@@ -77,17 +79,21 @@ export default function ColumnsTable(props) {
       const parsedDeadline = parseISO(newTaskDeadline);
       if (isValid(parsedDeadline)) {
         const newTask = {
-          title: newTaskName, // Updated property name to 'title'
-          projectID: "66249dbcbeb1b69847537b51", // Ensure this is defined and available
-          employeeID: "6623c88fa9878b56f9f7a0f4", // Ensure this is defined and available
+          title: newTaskName,
+          projectID: "66249dbcbeb1b69847537b51",
+          employeeID: newEmployees,
           status: newTaskStatus,
-          dueDate: parsedDeadline.toISOString(), // Updated property name to 'dueDate'
+          dueDate: parsedDeadline.toISOString(),
         };
   
         try {
           const response = await axios.post("http://localhost:5000/task/createTask", newTask);
           console.log("Task created successfully:", response.data);
-          setTasks((prevTasks) => [...prevTasks, newTask]);
+          
+          // Update the tasks state to include the new task
+          setTasks(prevTasks => [...prevTasks, response.data]);
+  
+          // Clear input fields and close the modal
           setNewTaskName("");
           setNewTaskDeadline("");
           setNewTaskStatus("In Progress");
@@ -105,6 +111,21 @@ export default function ColumnsTable(props) {
       alert("Please enter valid task details.");
     }
   };
+  useEffect(() => {
+    if (isOpen) {
+      const fetchEmployees = async () => {
+        try {
+          const response = await axios.get("http://localhost:5000/employee/employees");
+          setEmployees(response.data); // Assuming the response contains the list of employees
+        } catch (error) {
+          console.error("Error fetching employees:", error);
+        }
+      };
+  
+      fetchEmployees();
+    }
+  }, [isOpen]);
+  
   const data = useMemo(() => tasks, [tasks]);
 
   const tableInstance = useTable(
@@ -300,12 +321,20 @@ export default function ColumnsTable(props) {
             </FormControl>
 
             <FormControl mb={4}>
-              <FormLabel>Employee ID</FormLabel>
-              <Input
-                value={newEmployees}
-                onChange={(e) => setNewEmployees(e.target.value)}
-              />
-            </FormControl>
+  <FormLabel>Employee</FormLabel>
+  <Select
+    placeholder="Select employee"
+    value={newEmployees}
+    onChange={(e) => setNewEmployees(e.target.value)}
+  >
+    {employees.map((employee) => (
+      <option key={employee.id} value={employee.id}>
+        {employee.name}
+      </option>
+    ))}
+  </Select>
+</FormControl>
+
           </ModalBody>
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={handleAddTask}>
