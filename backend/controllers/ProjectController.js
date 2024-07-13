@@ -134,6 +134,37 @@ exports.getProject = catchAsync(async (req, res) => {
     });
 });
 
+
+exports.getEmployeesForTasks = catchAsync(async (req, res) => {
+  const project_id = req.query.project_id; // Use query parameter for GET requests
+  console.log('Received project ID:', project_id);
+
+  const project = await Project.findById(project_id).populate('employees');
+  console.log('Project:', project);
+
+  if (!project) {
+    return res.status(404).json({ message: 'Project not found' });
+  }
+
+  // Extract employee details from the populated field
+  const employees = project.employees.map(employee => ({
+    id: employee._id,
+    name: employee.name,
+    email: employee.email,
+    image: employee.image,
+    // Add more fields as needed
+  }));
+
+  res.status(200).json({
+    status: 'success',
+    data: {
+      employees: employees
+    }
+  });
+});
+
+
+
 exports.getEmployees = catchAsync(async (req, res) => {
     const project_id = req.body.project_id; // Change this to match the key in your request body
     console.log('Received project ID:', project_id);
@@ -160,6 +191,11 @@ exports.getEmployees = catchAsync(async (req, res) => {
         }
     });
 });
+
+
+
+
+
 
 
 exports.getTasks = catchAsync(async (req, res) => {

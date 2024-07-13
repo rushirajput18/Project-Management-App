@@ -21,6 +21,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select,
 } from "@chakra-ui/react";
 import { Button } from "@chakra-ui/react";
 import React, { useMemo, useState, useEffect } from "react";
@@ -31,7 +32,7 @@ import {
   useSortBy,
   useTable,
 } from "react-table";
-import axios from 'axios';
+import axios from "axios";
 import { useParams } from "react-router-dom";
 // Custom components
 import Card from "components/card/Card";
@@ -42,10 +43,11 @@ import { MdCheckCircle, MdCancel, MdOutlineError } from "react-icons/md";
 
 export default function ColumnsTable(props) {
   const { columnsData, tableData } = props;
-  console.log("ct",tableData);
+  // console.log("ct", tableData);
   const [fetchedTask, setFetchedTask] = useState(null);
+  const [employees, setEmployees] = useState([]);
   const { id } = useParams();
-  console.log("ass",id);
+   console.log("ass", id);
 
   // const fetchTask = async (taskId) => {
   //   try {
@@ -77,27 +79,31 @@ export default function ColumnsTable(props) {
   const handleAddTask = async () => {
     if (newTaskName && newTaskDeadline) {
       const parsedDeadline = parseISO(newTaskDeadline);
-      console.log("assssss",id);
       if (isValid(parsedDeadline)) {
         const newTask = {
-          title: newTaskName, // Updated property name to 'title'
-          projectID: id, // Ensure this is defined and available
-          employeeID: newEmployees, // Ensure this is defined and available
+          title: newTaskName,
+          projectID: id,
+          employeeID: newEmployees, // Ensure this is the selected employee ID, not the name
           status: newTaskStatus,
-          dueDate: parsedDeadline.toISOString(), // Updated property name to 'dueDate'
+          dueDate: parsedDeadline.toISOString(),
         };
-  
+  // console.log(deu)
+
         try {
           const response = await axios.post("http://localhost:5000/task/createTask", newTask);
           console.log("Task created successfully:", response.data);
-          setTasks((prevTasks) => [...prevTasks, newTask]);
+          
+          // Update tasks in state
+          setTasks(prevTasks => [...prevTasks, response.data]);
+  
+          // Reset form fields and close modal
           setNewTaskName("");
           setNewTaskDeadline("");
           setNewTaskStatus("In Progress");
           setNewEmployees("");
           onClose();
         } catch (error) {
-          console.error("Error creating task:", error);
+          console.error("Error creating task:", error.response);
           alert("Error creating task. Please try again.");
         }
       } else {
@@ -108,6 +114,26 @@ export default function ColumnsTable(props) {
       alert("Please enter valid task details.");
     }
   };
+  const handleEmployeeChange = (e) => {
+    setNewEmployees(e.target.value); // Update selected employee ID
+  };
+  
+  useEffect(() => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await axios.get(
+          `http://localhost:5000/project/getEmployeesForTasks?project_id=${id}`
+        );
+        console.log('API Response:', response.data);
+        setEmployees(response.data.data.employees); // Update state with employees
+      } catch (error) {
+        console.error('Error fetching employees:', error);
+      }
+    };
+
+    fetchEmployees();
+  }, [id]);
+  
   const data = useMemo(() => tasks, [tasks]);
 
   const tableInstance = useTable(
@@ -141,29 +167,36 @@ export default function ColumnsTable(props) {
       overflowX={{ sm: "scroll", lg: "hidden" }}
     >
       <Flex px="25px" justify="space-between" mb="10px" align="center">
-        <Text color={textColor} fontSize="22px" fontWeight="700" lineHeight="100%">
-          Project 
+        <Text
+          color={textColor}
+          fontSize="22px"
+          fontWeight="700"
+          lineHeight="100%"
+        >
+          Project
         </Text>
         <Menu />
         <Button colorScheme="brand" onClick={onOpen}>
           Add Task
         </Button>
       </Flex>
-      <Table {...getTableProps()} variant='simple' color='gray.500' mb='24px'>
+      <Table {...getTableProps()} variant="simple" color="gray.500" mb="24px">
         <Thead>
           {headerGroups.map((headerGroup, index) => (
             <Tr {...headerGroup.getHeaderGroupProps()} key={index}>
               {headerGroup.headers.map((column, index) => (
                 <Th
                   {...column.getHeaderProps(column.getSortByToggleProps())}
-                  pe='10px'
+                  pe="10px"
                   key={index}
-                  borderColor={borderColor}>
+                  borderColor={borderColor}
+                >
                   <Flex
-                    justify='space-between'
-                    align='center'
+                    justify="space-between"
+                    align="center"
                     fontSize={{ sm: "10px", lg: "12px" }}
-                    color='gray.400'>
+                    color="gray.400"
+                  >
                     {column.render("Header")}
                   </Flex>
                 </Th>
@@ -180,17 +213,17 @@ export default function ColumnsTable(props) {
                   let data = "";
                   if (cell.column.Header === "NAME") {
                     data = (
-                      <Text color={textColor} fontSize='sm' fontWeight='700'>
+                      <Text color={textColor} fontSize="sm" fontWeight="700">
                         {cell.value}
                       </Text>
                     );
                   } else if (cell.column.Header === "STATUS") {
                     data = (
-                      <Flex align='center'>
+                      <Flex align="center">
                         <Icon
-                          w='24px'
-                          h='24px'
-                          me='5px'
+                          w="24px"
+                          h="24px"
+                          me="5px"
                           color={
                             cell.value === "Approved"
                               ? "green.500"
@@ -210,13 +243,12 @@ export default function ColumnsTable(props) {
                               : null
                           }
                         />
-                        <Text color={textColor} fontSize='sm' fontWeight='700'>
+                        <Text color={textColor} fontSize="sm" fontWeight="700">
                           {cell.value}
                         </Text>
                       </Flex>
                     );
-                  }
-                  else if (cell.column.Header === "DATE") {
+                  } else if (cell.column.Header === "DATE") {
                     // Assuming cell.row.original.StartDate holds the ISO 8601 formatted date string
                     const isoDateString = cell.value;
                     const isoDate = new Date(isoDateString);
@@ -240,15 +272,14 @@ export default function ColumnsTable(props) {
                         {formattedDate}
                       </Text>
                     );
-                  } 
-                else if (cell.column.Header === "PROGRESS") {
+                  } else if (cell.column.Header === "PROGRESS") {
                     data = (
-                      <Flex align='center'>
+                      <Flex align="center">
                         <Progress
-                          variant='table'
-                          colorScheme='brandScheme'
-                          h='8px'
-                          w='108px'
+                          variant="table"
+                          colorScheme="brandScheme"
+                          h="8px"
+                          w="108px"
                           value={cell.value}
                         />
                       </Flex>
@@ -259,10 +290,11 @@ export default function ColumnsTable(props) {
                       {...cell.getCellProps()}
                       key={index}
                       fontSize={{ sm: "14px" }}
-                      maxH='30px !important'
-                      py='8px'
+                      maxH="30px !important"
+                      py="8px"
                       minW={{ sm: "150px", md: "200px", lg: "auto" }}
-                      borderColor='transparent'>
+                      borderColor="transparent"
+                    >
                       {data}
                     </Td>
                   );
@@ -303,11 +335,18 @@ export default function ColumnsTable(props) {
             </FormControl>
 
             <FormControl mb={4}>
-              <FormLabel>Employee ID</FormLabel>
-              <Input
-                value={newEmployees}
-                onChange={(e) => setNewEmployees(e.target.value)}
-              />
+              <FormLabel>Employee</FormLabel>
+              <Select
+          placeholder="Select employee"
+          value={newEmployees}
+          onChange={handleEmployeeChange}
+        >
+          {employees.map((employee) => (
+            <option key={employee.id} value={employee.id}>
+              {employee.name}
+            </option>
+          ))}
+        </Select>
             </FormControl>
           </ModalBody>
           <ModalFooter>

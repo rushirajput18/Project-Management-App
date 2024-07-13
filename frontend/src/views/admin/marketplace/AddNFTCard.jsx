@@ -68,10 +68,10 @@ const AddNFTCard = ({ setNFTCards }) => {
     <>
       <Card p="20px">
         <Flex direction="column" justify="center" align="center" h="100%">
-          <Icon as={IoAddCircleOutline} color={textColor} boxSize="50px" mb="20px" />
-          <Text color={textColor} fontSize="lg" fontWeight="bold" mb="10px">
+          <Icon onClick={handleOpenModal} as={IoAddCircleOutline} color={textColor} boxSize="50px" mb="20px" />
+          {/* <Text color={textColor} fontSize="lg" fontWeight="bold" mb="10px">
             Add New Project
-          </Text>
+          </Text> */}
           <Button variant="darkBrand" color="white" onClick={handleOpenModal}>
             New Project
           </Button>
