@@ -31,7 +31,7 @@ import {
   useSortBy,
   useTable,
 } from "react-table";
-import Axios from 'axios';
+import axios from 'axios';
 
 // Custom components
 import Card from "components/card/Card";
@@ -72,28 +72,34 @@ export default function ColumnsTable(props) {
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const handleAddTask = () => {
+  const handleAddTask = async () => {
     if (newTaskName && newTaskDeadline) {
-      
-const parsedDeadline = parseISO(newTaskDeadline);
-  
+      const parsedDeadline = parseISO(newTaskDeadline);
       if (isValid(parsedDeadline)) {
         const newTask = {
-          name: newTaskName,
+          title: newTaskName, // Updated property name to 'title'
+          projectID: "66249dbcbeb1b69847537b51", // Ensure this is defined and available
+          employeeID: "6623c88fa9878b56f9f7a0f4", // Ensure this is defined and available
           status: newTaskStatus,
-          deadline: parsedDeadline.toISOString(), // Use toISOString() on the parsed Date object
-          progress: "0",
-          employee: newEmployees,
+          dueDate: parsedDeadline.toISOString(), // Updated property name to 'dueDate'
         };
   
-        setTasks((prevTasks) => [...prevTasks, newTask]);
-        setNewTaskName("");
-        setNewTaskDeadline("");
-        setNewTaskStatus("In Progress");
-        setNewEmployees("");
-        onClose();
+        try {
+          const response = await axios.post("http://localhost:5000/task/createTask", newTask);
+          console.log("Task created successfully:", response.data);
+          setTasks((prevTasks) => [...prevTasks, newTask]);
+          setNewTaskName("");
+          setNewTaskDeadline("");
+          setNewTaskStatus("In Progress");
+          setNewEmployees("");
+          onClose();
+        } catch (error) {
+          console.error("Error creating task:", error);
+          alert("Error creating task. Please try again.");
+        }
       } else {
         alert("Invalid date format. Please enter the date in the correct format.");
+        console.log("Invalid date format. Please enter the date in the correct format");
       }
     } else {
       alert("Please enter valid task details.");
