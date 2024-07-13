@@ -77,6 +77,12 @@ exports.getAllProjects = catchAsync(async (req, res) => {
       });
   });
 
+  exports.countProjects = catchAsync(async (req, res) => {
+    const count = await Project.countDocuments({});
+    //console.log(count);
+    res.status(200).json({ projectCount:count });
+  })
+
 
 
 exports.deleteProject = catchAsync(async (req, res) => {

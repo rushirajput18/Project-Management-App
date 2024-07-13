@@ -1,7 +1,6 @@
-
 // Chakra imports
-import { useState, useEffect } from 'react';
-import Axios from 'axios';
+import { useState, useEffect } from "react";
+import Axios from "axios";
 import {
   Avatar,
   Box,
@@ -19,7 +18,7 @@ import MiniCalendar from "components/calendar/MiniCalendar";
 import MiniStatistics from "components/card/MiniStatistics";
 import IconBox from "components/icons/IconBox";
 import React from "react";
-import axios from 'axios';
+import axios from "axios";
 
 import Card from "components/card/Card.js";
 import {
@@ -28,7 +27,6 @@ import {
   MdBarChart,
   MdFileCopy,
 } from "react-icons/md";
-
 
 import CheckTable from "views/admin/default/components/CheckTable";
 import ComplexTable from "views/admin/default/components/ComplexTable";
@@ -48,27 +46,29 @@ import tableDataComplex from "views/admin/default/variables/tableDataComplex.jso
 import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/default/variables/tableColumnsTopCreators";
 
-
 export default function UserReports() {
   // Chakra Color Mode
   const [topEmployees, setTopEmployees] = useState([]);
-
-    
+  const totalProj = 0;
   useEffect(() => {
     fetchData();
+    //fetchDataProjects();
   }, []);
 
   const fetchData = async () => {
     try {
-      const response = await Axios.get('http://localhost:5000/employee/getTopEmployees');
+      const response = await Axios.get(
+        "http://localhost:5000/employee/getTopEmployees"
+      );
 
       setTopEmployees(response.data);
     } catch (error) {
-      console.error('Error fetching top employees:', error);
+      console.error("Error fetching top employees:", error);
     }
   };
   const YourComponent = () => {
     const [taskCount, setTaskCount] = useState(null);
+    //const [projectCount, setProjectCount] = useState(null);
 
     useEffect(() => {
       fetchData();
@@ -76,11 +76,12 @@ export default function UserReports() {
 
     const fetchData = async () => {
       try {
-        const response = await Axios.get('http://localhost:5000/task/countTask');
-        // console.log(response);
+        const response = await Axios.get(
+          "http://localhost:5000/task/countTask"
+        );
         setTaskCount(response.data.taskCount); // Assuming your API returns the task count in the format { taskCount: 6 }
       } catch (error) {
-        console.error('Error fetching task count:', error);
+        console.error("Error fetching task count:", error);
       }
     };
 
@@ -89,20 +90,21 @@ export default function UserReports() {
       <MiniStatistics
         startContent={
           <IconBox
-            w='56px'
-            h='56px'
-            bg='linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)'
-            icon={<Icon w='28px' h='28px' as={MdAddTask} color='white' />}
+            w="56px"
+            h="56px"
+            bg="linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)"
+            icon={<Icon w="28px" h="28px" as={MdAddTask} color="white" />}
           />
         }
-        name='Total Tasks'
-        value={taskCount !== null ? taskCount.toString() : 'Loading...'}
+        name="Total Tasks"
+        value={taskCount !== null ? taskCount.toString() : "Loading..."}
       />
     );
   };
   const brandColor = useColorModeValue("brand.500", "white");
   const boxBg = useColorModeValue("secondaryGray.300", "whiteAlpha.100");
   const [totalProjects, setTotalProjects] = useState(0);
+  const [projectCount, setProjectCount] = useState(null);
   const [projectData, setProjectData] = useState([
     {
       name: "Weekly Updates",
@@ -114,7 +116,6 @@ export default function UserReports() {
 
   useEffect(() => {
     const fetchProjects = async () => {
-
       try {
         const response = await axios.get(
           "http://localhost:5000/project/allProjects",
@@ -124,9 +125,9 @@ export default function UserReports() {
             },
           }
         );
-       
-       const projectsArray = response.data.data.projects.length.toString();
-        
+
+        const projectsArray = response.data.data.projects.length.toString();
+
         if (projectsArray) {
           setTotalProjects(projectsArray);
           // console.log("Total projects:", projectsArray);
@@ -137,6 +138,19 @@ export default function UserReports() {
         console.error("Error fetching projects:", error);
       }
     };
+
+    const fetchDataProjects = async () => {
+      try {
+        const response = await Axios.get(
+          "http://localhost:5000/project/countProjects"
+        );
+        console.log("Number of projects: ", response.data.projectCount);
+        setProjectCount(response.data.projectCount);
+      } catch (error) {
+        console.error("Error fetching task count:", error);
+      }
+    };
+
     const Projects = async () => {
       try {
         const response = await axios.get(
@@ -152,9 +166,6 @@ export default function UserReports() {
         );
         const progressData = progressResponse.data;
 
-        // console.log("progress Data" + JSON.stringify(progressResponse));
-
-        // Map through projects and assign donePercentage from progress data
         const projectsWithProgress = projectsArray.map((project) => {
           // Find progress data corresponding to the project ID
           const progress = progressData.find(
@@ -188,46 +199,16 @@ export default function UserReports() {
     };
     Projects();
     fetchProjects();
-  }, []); 
-
-
+    fetchDataProjects();
+  }, []);
 
   return (
-    <Box pt={['130px', '80px', '80px', '80px']}>
+    <Box pt={["130px", "80px", "80px", "80px"]}>
       <SimpleGrid
         columns={{ base: 1, md: 2, lg: 3, "2xl": 6 }}
         gap="20px"
         mb="20px"
       >
-        {/* <MiniStatistics
-          startContent={
-            <IconBox
-              w='56px'
-              h='56px'
-              bg={boxBg}
-              icon={
-                <Icon w='32px' h='32px' as={MdBarChart} color={brandColor} />
-              }
-            />
-          }
-          name='Earnings'
-          value='$350.4'
-        />
-        <MiniStatistics
-          startContent={
-            <IconBox
-              w='56px'
-              h='56px'
-              bg={boxBg}
-              icon={
-                <Icon w='32px' h='32px' as={MdAttachMoney} color={brandColor} />
-              }
-            />
-          }
-          name='Spend this month'
-          value='$642.39'
-        />
-        <MiniStatistics growth='+23%' name='Sales' value='$574.34' /> */}
         <MiniStatistics
           endContent={
             <Flex me="-16px" mt="10px">
@@ -243,16 +224,6 @@ export default function UserReports() {
                 <option value="project-2">Project-2</option>
                 <option value="project-3">Project-3</option>
               </Select>
-              {/* <Select
-                id='balance'
-                variant='mini'
-                mt='5px'
-                me='0px'
-                defaultValue='usd'>
-                <option value='usd'>USD</option>
-                <option value='eur'>EUR</option>
-                <option value='gba'>GBA</option>
-              </Select> */}
             </Flex>
           }
           name="Total Cost"
@@ -271,19 +242,18 @@ export default function UserReports() {
             />
           }
           name="Total Projects"
-          value={totalProjects}
+          value={projectCount}
         />
       </SimpleGrid>
 
-      {/* <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap='20px' mb='20px'>
-        <TotalSpent />
-        <WeeklyRevenue />
-      </SimpleGrid> */}
       <SimpleGrid columns={{ base: 1, md: 1, xl: 2 }} height="420px" gap="20px">
         {/* <CheckTable columnsData={columnsDataCheck} tableData={tableDataCheck} /> */}
-        <SimpleGrid columns={{ base: 1, md: 2, xl: 2 }} gap="20px"
-            width="74vh"
-            height="420px">
+        <SimpleGrid
+          columns={{ base: 1, md: 2, xl: 2 }}
+          gap="20px"
+          width="74vh"
+          height="420px"
+        >
           {/* <DailyTraffic /> */}
           <PieCard />
           <MiniCalendar minW="483px" mx="260px" selectRange={false} />

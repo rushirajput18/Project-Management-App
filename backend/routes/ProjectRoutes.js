@@ -12,5 +12,6 @@ router.get('/getEmployeesForTasks',projectController.getEmployeesForTasks);
 router.get('/getTasks/:id',projectController.getTasks);
 router.get('/PieChart',projectController.getPieChartData);
 router.put("/UpdateStatus/:id/todo",projectController.UpdateStatus,);
+router.get("/countProjects",projectController.countProjects);
 
 module.exports=router;
