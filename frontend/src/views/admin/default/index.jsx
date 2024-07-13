@@ -43,9 +43,9 @@ import {
   columnsDataCheck,
   columnsDataComplex,
 } from "views/admin/default/variables/columnsData";
-import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
-import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
-import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
+// import tableDataCheck from "views/admin/default/variables/tableDataCheck.json";
+// import tableDataComplex from "views/admin/default/variables/tableDataComplex.json";
+// import tableDataTopCreators from "views/admin/default/variables/tableDataTopCreators.json";
 import { tableColumnsTopCreators } from "views/admin/default/variables/tableColumnsTopCreators";
 
 
