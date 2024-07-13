@@ -87,9 +87,10 @@ export default function UserReports() {
     return (
       // Your JSX code that uses taskCount
       <MiniStatistics
+    
         startContent={
           <IconBox
-            w='56px'
+            w='80px'
             h='56px'
             bg='linear-gradient(90deg, #4481EB 0%, #04BEFE 100%)'
             icon={<Icon w='28px' h='28px' as={MdAddTask} color='white' />}
@@ -228,7 +229,7 @@ export default function UserReports() {
           value='$642.39'
         />
         <MiniStatistics growth='+23%' name='Sales' value='$574.34' /> */}
-        <MiniStatistics
+        {/* <MiniStatistics
           endContent={
             <Flex me="-16px" mt="10px">
               <FormLabel htmlFor="balance"></FormLabel>
@@ -253,11 +254,11 @@ export default function UserReports() {
                 <option value='eur'>EUR</option>
                 <option value='gba'>GBA</option>
               </Select> */}
-            </Flex>
-          }
-          name="Total Cost"
+            {/* </Flex> */}
+          
+          {/* name="Total Cost"
           value="$1,000"
-        />
+        /> */} 
         <YourComponent />
         <MiniStatistics
           startContent={
