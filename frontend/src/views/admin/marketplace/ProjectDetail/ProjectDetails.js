@@ -57,7 +57,7 @@ export default function ProjectDetails(props) {
   const [projectData, setProjectData] = useState(null);
   const [projectTask, setProjectTask] = useState(null);
   const [loading, setLoading] = useState(true);
-  console.log("as", id);
+  // console.log("as", id);
   const { ...rest } = props;
   // states and functions
   const textColor = useColorModeValue("navy.700", "white");
