@@ -32,7 +32,7 @@ import {
   useTable,
 } from "react-table";
 import axios from 'axios';
-
+import { useParams } from "react-router-dom";
 // Custom components
 import Card from "components/card/Card";
 import Menu from "components/menu/MainMenu";
@@ -44,6 +44,8 @@ export default function ColumnsTable(props) {
   const { columnsData, tableData } = props;
   console.log("ct",tableData);
   const [fetchedTask, setFetchedTask] = useState(null);
+  const { id } = useParams();
+  console.log("ass",id);
 
   // const fetchTask = async (taskId) => {
   //   try {
@@ -75,11 +77,12 @@ export default function ColumnsTable(props) {
   const handleAddTask = async () => {
     if (newTaskName && newTaskDeadline) {
       const parsedDeadline = parseISO(newTaskDeadline);
+      console.log("assssss",id);
       if (isValid(parsedDeadline)) {
         const newTask = {
           title: newTaskName, // Updated property name to 'title'
-          projectID: "66249dbcbeb1b69847537b51", // Ensure this is defined and available
-          employeeID: "6623c88fa9878b56f9f7a0f4", // Ensure this is defined and available
+          projectID: id, // Ensure this is defined and available
+          employeeID: newEmployees, // Ensure this is defined and available
           status: newTaskStatus,
           dueDate: parsedDeadline.toISOString(), // Updated property name to 'dueDate'
         };
