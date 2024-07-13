@@ -138,9 +138,9 @@ export default function ColumnsTable(props) {
           Project Table
         </Text>
         <Menu />
-        <Button colorScheme="brand" onClick={onOpen}>
+        {/* <Button colorScheme="brand" onClick={onOpen}>
           Add Task
-        </Button>
+        </Button> */}
       </Flex>
       <Table {...getTableProps()} variant="simple" color="gray.500" mb="24px">
         <Thead>
@@ -179,38 +179,6 @@ export default function ColumnsTable(props) {
                         {cell.row.original.title}
                       </Text>
                     );
-                  // } else if (cell.column.Header === "STATUS") {
-                  //   data = (
-                  //     <Flex align="center">
-                  //       <Icon
-                  //         w="24px"
-                  //         h="24px"
-                  //         me="5px"
-                  //         color={
-                  //           cell.value === "Assigned"
-                  //             ? "orange.500"
-                  //             : cell.value === "In Progress"
-                  //             ? "red.500"
-                  //             : cell.value === "Completed"
-                  //             ? "green.500"
-                  //             : null
-                  //         }
-                  //         as={
-                  //           cell.value === "Assigned"
-                  //             ? MdCheckCircle
-                  //             : cell.value === "In Progress"
-                  //             ? MdCancel
-                  //             : cell.value === "Completed"
-                  //             ? MdCheckCircle
-                  //             : null
-                  //         }
-                  //       />
-                  //       <Text color={textColor} fontSize="sm" fontWeight="700">
-                  //         {cell.row.original.status}
-                  //       </Text>
-                  //     </Flex>
-                  //   );
-                  // 
                   } else if (cell.column.Header === "DATE") {
                     // Assuming cell.row.original.StartDate holds the ISO 8601 formatted date string
                     const isoDateString = cell.row.original.StartDate;
