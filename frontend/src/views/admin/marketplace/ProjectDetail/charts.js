@@ -246,8 +246,9 @@ export const pieChartOptions = {
     theme: "dark",
   },
 };
-
-export const pieChartData = [70, 30];
+const v1 = 3;
+const v3 = 1
+export const pieChartData = [v1, v3];
 
 // Total Spent Default
 

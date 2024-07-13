@@ -35,7 +35,7 @@ import {
 function TableTopCreators({ projectData, columnsData }) {
   const data = useMemo(() => {
     if (!projectData) return []; // Return an empty array if projectData is undefined
-   console.log(projectData.employees)
+   //console.log(projectData.employees)
     // Transform the projectData into the expected structure
     return projectData.employees.map((item) => ({
       // Map the properties of your data to the corresponding column keys
@@ -65,10 +65,6 @@ function TableTopCreators({ projectData, columnsData }) {
   const textColor = useColorModeValue("navy.700", "white");
   const textColorSecondary = useColorModeValue("secondaryGray.600", "white");
 
-  // If projectData is undefined, return a message or a loading indicator
-  // if (!projectData) {
-  //   return <div>Loading...</div>;
-  // }
   return (
     <>
       <Flex direction="column" w="100%" overflowX={{ sm: "scroll", lg: "hidden" }}>
