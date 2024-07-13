@@ -66,7 +66,7 @@ export default function ColumnsTable(props) {
       if (isValid(formattedDate)) {
         const newTask = {
           name: newTaskName,
-          status: newTaskStatus,
+          // status: newTaskStatus,
           deadline: formattedDate, // Use toISOString() on the parsed Date object
           progress: "0",
           employee: newEmployees,
@@ -75,7 +75,7 @@ export default function ColumnsTable(props) {
         setTasks((prevTasks) => [...prevTasks, newTask]);
         setNewTaskName("");
         setNewTaskDeadline("");
-        setNewTaskStatus("In Progress");
+        // setNewTaskStatus("In Progress");
         setNewEmployees("");
         onClose();
       } else {
@@ -91,7 +91,7 @@ export default function ColumnsTable(props) {
   const [newTaskName, setNewTaskName] = useState("");
   const [newEmployees, setNewEmployees] = useState("");
   const [newTaskDeadline, setNewTaskDeadline] = useState("");
-  const [newTaskStatus, setNewTaskStatus] = useState("In Progress");
+  // const [newTaskStatus, setNewTaskStatus] = useState("In Progress");
 
   const tableInstance = useTable(
     {
@@ -179,37 +179,38 @@ export default function ColumnsTable(props) {
                         {cell.row.original.title}
                       </Text>
                     );
-                  } else if (cell.column.Header === "STATUS") {
-                    data = (
-                      <Flex align="center">
-                        <Icon
-                          w="24px"
-                          h="24px"
-                          me="5px"
-                          color={
-                            cell.value === "Assigned"
-                              ? "orange.500"
-                              : cell.value === "In Progress"
-                              ? "red.500"
-                              : cell.value === "Completed"
-                              ? "green.500"
-                              : null
-                          }
-                          as={
-                            cell.value === "Assigned"
-                              ? MdCheckCircle
-                              : cell.value === "In Progress"
-                              ? MdCancel
-                              : cell.value === "Completed"
-                              ? MdCheckCircle
-                              : null
-                          }
-                        />
-                        <Text color={textColor} fontSize="sm" fontWeight="700">
-                          {cell.row.original.status}
-                        </Text>
-                      </Flex>
-                    );
+                  // } else if (cell.column.Header === "STATUS") {
+                  //   data = (
+                  //     <Flex align="center">
+                  //       <Icon
+                  //         w="24px"
+                  //         h="24px"
+                  //         me="5px"
+                  //         color={
+                  //           cell.value === "Assigned"
+                  //             ? "orange.500"
+                  //             : cell.value === "In Progress"
+                  //             ? "red.500"
+                  //             : cell.value === "Completed"
+                  //             ? "green.500"
+                  //             : null
+                  //         }
+                  //         as={
+                  //           cell.value === "Assigned"
+                  //             ? MdCheckCircle
+                  //             : cell.value === "In Progress"
+                  //             ? MdCancel
+                  //             : cell.value === "Completed"
+                  //             ? MdCheckCircle
+                  //             : null
+                  //         }
+                  //       />
+                  //       <Text color={textColor} fontSize="sm" fontWeight="700">
+                  //         {cell.row.original.status}
+                  //       </Text>
+                  //     </Flex>
+                  //   );
+                  // 
                   } else if (cell.column.Header === "DATE") {
                     // Assuming cell.row.original.StartDate holds the ISO 8601 formatted date string
                     const isoDateString = cell.row.original.StartDate;
@@ -288,13 +289,13 @@ export default function ColumnsTable(props) {
                 onChange={(e) => setNewTaskDeadline(e.target.value)}
               />
             </FormControl>
-            <FormControl mb={4}>
+            {/* <FormControl mb={4}>
               <FormLabel>Status</FormLabel>
               <Input
                 value={newTaskStatus}
                 onChange={(e) => setNewTaskStatus(e.target.value)}
               />
-            </FormControl>
+            </FormControl> */}
 
             <FormControl mb={4}>
               <FormLabel>Employee ID</FormLabel>
