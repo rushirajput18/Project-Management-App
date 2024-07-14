@@ -1,7 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import mongoose from 'mongoose'; // or const mongoose = require('mongoose');
-
 import {
   Modal,
   ModalOverlay,
@@ -13,11 +11,14 @@ import {
   Button,
   Flex,
   Icon,
-  Text,
   useColorModeValue,
   Input,
   FormControl,
   FormLabel,
+  Select,
+  CheckboxGroup,
+  Checkbox,
+  Stack,
 } from "@chakra-ui/react";
 import { IoAddCircleOutline } from "react-icons/io5";
 import Card from "components/card/Card.js";
@@ -26,64 +27,96 @@ const AddNFTCard = ({ setNFTCards }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const textColor = useColorModeValue("secondaryGray.900", "white");
 
-  // State variables for form fields
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [employees, setEmployees] = useState([]);
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
   const [leader, setLeader] = useState("");
   const [endDate, setEndDate] = useState("");
+
+  useEffect(() => {
+    if (isModalOpen) {
+      fetchEmployees();
+    }
+  }, [isModalOpen]);
+
+  const fetchEmployees = async () => {
+    try {
+      const response = await axios.get("http://localhost:5000/employee/employees");
+      setEmployees(response.data);
+    } catch (error) {
+      console.error("Error fetching employees:", error);
+    }
+  };
 
   const handleOpenModal = () => {
     setIsModalOpen(true);
   };
 
+  const handleCloseModal = () => {
+    // Reset the form fields
+    setTitle("");
+    setDescription("");
+    setSelectedEmployees([]);
+    setLeader("");
+    setEndDate("");
+    setIsModalOpen(false);
+  };
+
   const handleAddProject = async () => {
     try {
-      const employeeIds = employees.map((empId) => new mongoose.Types.ObjectId(empId));
-      const leaderId = new mongoose.Types.ObjectId(leader);
-  
       const projectData = {
         title,
         description,
-        employees: employeeIds,
+        employees: selectedEmployees,
         endDate,
-        leader: leaderId,
+        leader,
       };
-  
+
       const response = await axios.post("http://localhost:5000/project/createProject", projectData);
-      console.log('Project created:', response.data);
-      // Reset form fields or perform any other necessary actions
-      setIsModalOpen(false);
-      setTitle('');
-      setDescription('');
-      setEmployees([]);
-      setLeader('');
-      setEndDate('');
+      console.log("Project created:", response.data);
+      
+      const newProject = response.data.data.project;
+
+      const newNFTCard = {
+        _id: newProject._id,
+        name: newProject.title,
+        description: newProject.description,
+        author: newProject.leader ? newProject.leader.name : "Unknown",
+        bidders: newProject.employees.map((employee) => employee.name),
+      };
+
+      setNFTCards((prevProjects) => [...prevProjects, newNFTCard]);
+
+      handleCloseModal();
     } catch (error) {
-      console.error('Error creating project:', error);
-      // Handle error
+      console.error("Error creating project:", error);
     }
   };
+
   return (
     <>
       <Card p="20px">
         <Flex direction="column" justify="center" align="center" h="100%">
-          <Icon onClick={handleOpenModal} as={IoAddCircleOutline} color={textColor} boxSize="50px" mb="20px" />
-          {/* <Text color={textColor} fontSize="lg" fontWeight="bold" mb="10px">
-            Add New Project
-          </Text> */}
+          <Icon
+            onClick={handleOpenModal}
+            as={IoAddCircleOutline}
+            color={textColor}
+            boxSize="50px"
+            mb="20px"
+          />
           <Button variant="darkBrand" color="white" onClick={handleOpenModal}>
             New Project
           </Button>
         </Flex>
       </Card>
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>Add New Project</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <FormControl>
+            <FormControl mb={4}>
               <FormLabel>Title</FormLabel>
               <Input
                 placeholder="Project name"
@@ -91,23 +124,36 @@ const AddNFTCard = ({ setNFTCards }) => {
                 onChange={(e) => setTitle(e.target.value)}
               />
             </FormControl>
-            <FormControl>
+            <FormControl mb={4}>
               <FormLabel>Leader</FormLabel>
-              <Input
-                placeholder="Leader"
+              <Select
+                placeholder="Select leader"
                 value={leader}
                 onChange={(e) => setLeader(e.target.value)}
-              />
+              >
+                {employees.map((employee) => (
+                  <option key={employee._id} value={employee._id}>
+                    {employee.name}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
-            <FormControl>
+            <FormControl mb={4}>
               <FormLabel>Employees</FormLabel>
-              <Input
-                placeholder="Employees"
-                value={employees.join(", ")}
-                onChange={(e) => setEmployees(e.target.value.split(",").map((emp) => emp.trim()))}
-              />
+              <CheckboxGroup
+                value={selectedEmployees}
+                onChange={setSelectedEmployees}
+              >
+                <Stack>
+                  {employees.map((employee) => (
+                    <Checkbox key={employee._id} value={employee._id}>
+                      {employee.name}
+                    </Checkbox>
+                  ))}
+                </Stack>
+              </CheckboxGroup>
             </FormControl>
-            <FormControl>
+            <FormControl mb={4}>
               <FormLabel>Description</FormLabel>
               <Input
                 placeholder="Description"
@@ -116,7 +162,7 @@ const AddNFTCard = ({ setNFTCards }) => {
               />
             </FormControl>
             <FormControl mb={4}>
-              <FormLabel>EndDate</FormLabel>
+              <FormLabel>End Date</FormLabel>
               <Input
                 type="date"
                 value={endDate}
@@ -125,7 +171,7 @@ const AddNFTCard = ({ setNFTCards }) => {
             </FormControl>
           </ModalBody>
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={() => setIsModalOpen(false)}>
+            <Button colorScheme="blue" mr={3} onClick={handleCloseModal}>
               Close
             </Button>
             <Button variant="ghost" onClick={handleAddProject}>

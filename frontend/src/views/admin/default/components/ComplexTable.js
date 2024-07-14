@@ -97,7 +97,7 @@ export default function ColumnsTable(props) {
     {
       columns,
       data,
-      initialState: { pageIndex, pageSize: 10 }, // Set initial page index and size
+      initialState: { pageIndex, pageSize: 5 }, // Set initial page index and size
     },
     useGlobalFilter,
     useSortBy,
@@ -286,24 +286,44 @@ export default function ColumnsTable(props) {
       </Modal>
       {/* Pagination controls */}
       <Flex justify="center" mt="20px">
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {"First__"}
-        </button>{" "}
-        <button onClick={previousPage} disabled={!canPreviousPage}>
-          {"Previous__"}
-        </button>{" "}
-        {Array.from({ length: pageCount }, (_, i) => (
-          <button key={i} onClick={() => gotoPage(i)}>
-            {i + 1}
-          </button>
-        ))}
-        <button onClick={nextPage} disabled={!canNextPage}>
-          {"__Next__"}
-        </button>{" "}
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {"Last"}
-        </button>{" "}
-      </Flex>
+      <Button 
+        onClick={() => gotoPage(0)} 
+        disabled={!canPreviousPage} 
+        mr="4px"
+      >
+        First
+      </Button>
+      <Button 
+        onClick={previousPage} 
+        disabled={!canPreviousPage} 
+        mr="4px"
+      >
+        Previous
+      </Button>
+      {Array.from({ length: pageCount }, (_, i) => (
+        <Button 
+          key={i} 
+          onClick={() => gotoPage(i)} 
+          mx="2px"
+        >
+          {i + 1}
+        </Button>
+      ))}
+      <Button 
+        onClick={nextPage} 
+        disabled={!canNextPage} 
+        ml="4px"
+      >
+        Next
+      </Button>
+      <Button 
+        onClick={() => gotoPage(pageCount - 1)} 
+        disabled={!canNextPage} 
+        ml="4px"
+      >
+        Last
+      </Button>
+    </Flex>
     </Card>
   );
 }
