@@ -12,8 +12,8 @@ export default function Conversion(props) {
   const { tasksDone, notDone } = props;
   //const pieChartData = [tasksDone, notDone]; // Create pieChartData dynamically
 
-  console.log('Conversion props:', props);
-  console.log('PieChartData:', pieChartData);
+  // console.log('Conversion props:', props);
+  // console.log('PieChartData:', pieChartData);
 
   const { ...rest } = props;
 

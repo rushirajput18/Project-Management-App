@@ -34,28 +34,36 @@ exports.UpdateStatus = catchAsync(async (req, res) => {
       res.json({ message: "Todo list updated successfully" });
 })
 
-exports.createProject = catchAsync(async(req, res) => {
+exports.createProject = catchAsync(async (req, res) => {
   try {
-      const { title, description, employees, endDate, leader } = req.body;
-      
-      // Create the project
-      const newProject = await Project.create({ title, description, employees, endDate, leader });      
-      // Send response
-      res.status(201).json({
-          status: 'success',
-          data: {
-              project: newProject
-          }
-      });
+    const { title, description, employees, EndDate, leader } = req.body;
+    
+    // Create the project
+    const newProject = await Project.create({ 
+      title, 
+      description, 
+      employees, 
+      EndDate,  // Map endDate to EndDate
+      leader 
+    });
+
+    // Send response
+    res.status(201).json({
+      status: 'success',
+      data: {
+        project: newProject
+      }
+    });
   } catch (error) {
-    console.log(error)
-      // Handle errors
-      res.status(400).json({
-          status: 'fail',
-          message: error.message
-      });
+    console.log(error);
+    // Handle errors
+    res.status(400).json({
+      status: 'fail',
+      message: error.message
+    });
   }
 });
+
 
 
 exports.getAllProjects = catchAsync(async (req, res) => {

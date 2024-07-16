@@ -47,7 +47,7 @@ export default function ColumnsTable(props) {
   const [fetchedTask, setFetchedTask] = useState(null);
   const [employees, setEmployees] = useState([]);
   const { id } = useParams();
-   console.log("ass", id);
+  //  console.log("ass", id);
 
   // const fetchTask = async (taskId) => {
   //   try {

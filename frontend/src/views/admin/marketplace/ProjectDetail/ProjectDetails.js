@@ -98,12 +98,12 @@ export default function ProjectDetails(props) {
         setProjectTask(tasks);
         setNumTasks(tasks.length);
         setNumDoneTasks(tasks.filter(task => task.status === 'Done').length);
-        console.log("total tasks",numTasks);
+        // console.log("total tasks",numTasks);
         //alert("total tasks"+ numTasks);
-        console.log("done tasks",numDoneTasks);
+        // console.log("done tasks",numDoneTasks);
         if (numTasks != 0){
           //const percentage = calculatePercentage(tasks);
-          console.log("Percentage completed", (numDoneTasks / numTasks) * 100);
+          // console.log("Percentage completed", (numDoneTasks / numTasks) * 100);
         }
     
         setLoading(false);
